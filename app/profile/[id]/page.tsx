@@ -13,28 +13,19 @@ export default function ProfilePage({ params }: { params: Promise<{ id: string }
     return (
         <main>
             <div id="userInfos">
-                <div>
-                    <h1>{profileData.name}</h1>
-                </div>
+                <h1>{profileData.name}</h1>
+
                 {profileData.address && (
-                    <div>
-                        <p>{profileData.address}</p>
-                    </div>
+                    <p>Adresse de géolocalisation : {profileData.address}</p>
                 )}
                 {profileData.birthdate && (
-                    <div>
-                        <p>{new Date(profileData.birthdate).toLocaleDateString('fr-FR')}</p>
-                    </div>
+                    <p>Âge : {new Date(profileData.birthdate).toLocaleDateString('fr-FR')}</p>
                 )}
                 {profileData.bio && (
-                    <div>
-                        <p>{profileData.bio}</p>
-                    </div>
+                        <p>Bio : {profileData.bio}</p>
                 )}
                 {profileData.contactLink && (
-                    <div>
-                        <a href={profileData.contactLink}>{profileData.contactLink}</a>
-                    </div>
+                        <a target="_blank" href={profileData.contactLink}>Me contacter</a>
                 )}
             </div>
             <div id="userPosts">

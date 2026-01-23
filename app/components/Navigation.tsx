@@ -52,13 +52,11 @@ export const Navigation = ({ isAuthenticated, userId }: NavigationProps) => {
                             </button>
                         </>
                     )}
-
-                    <div id="searchbar" className="flex justify-center">
-                        <input type="text" placeholder="Cherchez un tag" />
-                        <button>Recherche</button>
-                    </div>
                 </div>
-
+                <div id="searchbar" className="flex justify-center">
+                    <input type="text" placeholder="Cherchez un tag" />
+                    <button>Recherche</button>
+                </div>
             </nav>
             {showLogin && <LogInForm />}
             {showSignup && <SignUpForm />}
