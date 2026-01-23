@@ -8,9 +8,10 @@ import { LogOutButton } from "./Connexion/LogOutButton";
 
 interface NavigationProps {
     isAuthenticated: boolean;
+    userId?: string;
 }
 
-export const Navigation = ({ isAuthenticated }: NavigationProps) => {
+export const Navigation = ({ isAuthenticated, userId }: NavigationProps) => {
     const [showSignup, setShowSignup] = useState(false);
     const [showLogin, setShowLogin] = useState(false);
 
@@ -35,7 +36,9 @@ export const Navigation = ({ isAuthenticated }: NavigationProps) => {
                 <div id="navigation-links" className="flex justify-center flex-wrap">
                     {isAuthenticated ? (
                         <>
-                            <button>Profil</button>
+                            <Link href={`/profile/${userId}`}>
+                                <button>Profil</button>
+                            </Link>
                             <button>Créer une annonce</button>
                             <LogOutButton />
                         </>

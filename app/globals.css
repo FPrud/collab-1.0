@@ -23,7 +23,7 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-input, button, div {
+input, button, div, Link {
   border: black;
   border-width: 1px;
   border-style: solid;

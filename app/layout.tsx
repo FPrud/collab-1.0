@@ -20,14 +20,15 @@ export default async function RootLayout({
 
   console.log("Session:", session);
   console.log("User:", session?.user);
-  
+
   const isAuthenticated = !!session?.user;
+  const userId = session?.user?.id;
   console.log("Is authenticated:", isAuthenticated);
 
   return (
     <html lang="en">
       <body>
-        <Navigation isAuthenticated={isAuthenticated} />
+        <Navigation isAuthenticated={isAuthenticated} userId={userId} />
         {children}
       </body>
     </html>
