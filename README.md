@@ -9,3 +9,4 @@ Collab' est un site qui vise les musiciens amateurs pour leur permettre de se co
 - Inititation du projet
 - Installation de Next.js, Drizzle, BetterAuth
 - Création du schema, migration Neon (pg)
+- Création des modules de création de compte, connexion et déconnexion
