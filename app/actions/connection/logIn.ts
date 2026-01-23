@@ -1,7 +1,6 @@
 "use server";
 
 import { auth } from "@/src/auth";
-import { redirect } from "next/navigation";
 
 export const logIn = async (formData: FormData) => {
     const email = formData.get("email") as string;
@@ -21,6 +20,8 @@ export const logIn = async (formData: FormData) => {
 
     if (!response.ok) {
         console.error("Sign in failed:", await response.json());
-        redirect("/");
+        return { error: "Échec de la connexion" };
     }
+
+    return { success: true };
 }

@@ -10,7 +10,10 @@ export const LogOutButton = () => {
         setIsLoading(true);
 
         try {
-            await logOut();
+            const result = await logOut();
+            if (result?.success) {
+                window.location.href = "/";
+            }
         } catch (error) {
             console.error("Erreur lors de la déconnexion :", error);
             setIsLoading(false);

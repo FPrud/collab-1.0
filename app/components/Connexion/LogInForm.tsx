@@ -14,10 +14,17 @@ export const LogInForm = () => {
 
         try {
             const formData = new FormData(e.currentTarget);
-            await logIn(formData);
+            const result = await logIn(formData);
+            
+            if (result?.success) {
+                window.location.href = "/";
+            } else if (result?.error) {
+                setError(result.error);
+                setIsLoading(false);
+            }
         } catch (error) {
             console.error("Erreur lors de la connexion :", error);
-        } finally {
+            setError("Une erreur est survenue");
             setIsLoading(false);
         }
     };

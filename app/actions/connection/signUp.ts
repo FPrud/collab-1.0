@@ -3,8 +3,6 @@
 import { auth } from "@/src/auth";
 import { db } from "@/src/db";
 import { profiles } from "@/src/schema";
-import { redirect } from "next/navigation";
-
 
 export const signUp = async (formData: FormData) => {
     const name = formData.get("name") as string;
@@ -29,7 +27,6 @@ export const signUp = async (formData: FormData) => {
         throw new Error("Inscription échouée");
     }
 
-    // Récupérer les données de la réponse
     const data = await response.json();
     const userId = data.user?.id;
 
@@ -37,7 +34,6 @@ export const signUp = async (formData: FormData) => {
         throw Error("Failed to retrieve user ID");
     }
 
-    // Créer un profil vide pour le nouvel utilisateur
     await db.insert(profiles).values({
         userId: userId,
         address: null,
@@ -46,5 +42,5 @@ export const signUp = async (formData: FormData) => {
         contactLink: null
     });
 
-    redirect("/");
+    return { success: true };
 };

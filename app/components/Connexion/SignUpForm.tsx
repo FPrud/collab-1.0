@@ -7,7 +7,6 @@ export const SignUpForm = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    // Envoi du formulaire
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsLoading(true);
@@ -15,7 +14,11 @@ export const SignUpForm = () => {
 
         try {
             const formData = new FormData(e.currentTarget);
-            await signUp(formData);
+            const result = await signUp(formData);
+            
+            if (result?.success) {
+                window.location.href = "/";
+            }
         } catch (error: any) {
             console.error("Erreur lors de l'inscription :", error);
             setError(error.message || "Une erreur est survenue");
