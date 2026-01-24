@@ -1,4 +1,5 @@
 import { getProfile } from "@/app/actions/profile/getProfile";
+import { LogOutButton } from "@/app/components/Connexion/LogOutButton";
 import { notFound } from "next/navigation";
 import { use } from "react";
 
@@ -22,14 +23,13 @@ export default function ProfilePage({ params }: { params: Promise<{ id: string }
                     <p>Âge : {new Date(profileData.birthdate).toLocaleDateString('fr-FR')}</p>
                 )}
                 {profileData.bio && (
-                        <p>Bio : {profileData.bio}</p>
+                    <p>Bio : {profileData.bio}</p>
                 )}
                 {profileData.contactLink && (
-                        <a target="_blank" href={profileData.contactLink}>Me contacter</a>
+                    <a target="_blank" href={profileData.contactLink}>Me contacter</a>
                 )}
             </div>
-            <div id="userPosts">
-            </div>
+            <LogOutButton />
         </main>
     );
 }

@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
 
 :root {
   --background: #ffffff;
@@ -27,7 +27,9 @@ input, button, div, Link {
   border: black;
   border-width: 1px;
   border-style: solid;
-  padding: 10px;
+  border-radius: 5px;
+  padding: 5px;
+
 }
 
 input {
@@ -38,7 +40,11 @@ button {
   background-color: #ddffff;
 }
 
-div {
-  background-color: #ffffdd;
-  gap: 5px
+h1 {
+  font-family: "Rubik", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 550; /*300 - 900*/
+  font-style: normal;
 }
+
+@import "tailwindcss";
