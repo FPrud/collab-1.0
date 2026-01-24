@@ -32,12 +32,23 @@ input, button, div, Link {
 
 }
 
+input, button, Link {
+  text-align: center;
+  justify-content: center;
+}
+
 input {
   background-color: #ffddff;
 }
 
 button {
   background-color: #ddffff;
+  cursor: pointer;
+}
+
+Link, a {
+  background-color: #ffffdd;
+  cursor: pointer;
 }
 
 h1 {

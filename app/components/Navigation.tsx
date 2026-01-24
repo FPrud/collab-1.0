@@ -34,26 +34,27 @@ export const Navigation = ({ isAuthenticated, userId }: NavigationProps) => {
                                     <AudioWaveform className="self-center" />
                                 </div>
                             </Link>
+                            <div className="flex flex-col text-center items-center">
+                                <Plus className="self-center" />
+                            </div>
                             <Link href={`/profile/${userId}`}>
                                 <div className="flex flex-col text-center items-center">
                                     <User className="self-center" />
                                 </div>
                             </Link>
-                            <div className="flex flex-col text-center items-center">
-                                <Plus className="self-center" />
-                            </div>
                         </>
                     ) : (
                         <>
                             <Link href="/">
                                 <div className="flex flex-col text-center items-center">
                                     <AudioWaveform className="self-center" />
-                                    <span>Annonces</span>
                                 </div>
                             </Link>
+                            <div className="flex flex-col text-center items-center cursor-not-allowed">
+                                <Plus className="self-center" />
+                            </div>
                             <button onClick={handleShowLogOptions} className="flex flex-col text-center items-center">
                                 <User />
-                                <span>Connexion</span>
                             </button>
                         </>
                     )}

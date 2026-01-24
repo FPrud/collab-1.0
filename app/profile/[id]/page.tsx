@@ -13,7 +13,7 @@ export default function ProfilePage({ params }: { params: Promise<{ id: string }
 
     return (
         <main>
-            <div id="userInfos">
+            <div id="userInfosContainer" className="gap-2 m-5">
                 <h1>{profileData.name}</h1>
 
                 {profileData.address && (
@@ -26,7 +26,7 @@ export default function ProfilePage({ params }: { params: Promise<{ id: string }
                     <p>Bio : {profileData.bio}</p>
                 )}
                 {profileData.contactLink && (
-                    <a target="_blank" href={profileData.contactLink}>Me contacter</a>
+                    <a target="_blank" href={profileData.contactLink}><button>Me contacter</button></a>
                 )}
             </div>
             <LogOutButton />
