@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Pencil, Check, X } from "lucide-react";
-import { DisplayUserCard } from "./DisplayUserCard";
+import { DisplayUserInfos } from "./DisplayUserInfos";
 import { EditUserInfos } from "./EditUserInfos";
 import { useRouter } from "next/navigation";
 import { LogOutButton } from "../Connection/LogOutButton";
@@ -16,9 +16,10 @@ interface ProfileManagerProps {
         address: string | null;
         contactLink: string | null;
     };
+    isOwnProfile: boolean;
 }
 
-export function ProfileManager({ userId, profileData }: ProfileManagerProps) {
+export function ProfileManager({ userId, profileData, isOwnProfile }: ProfileManagerProps) {
     const [isEditing, setIsEditing] = useState(false);
     const router = useRouter();
 
@@ -52,7 +53,8 @@ export function ProfileManager({ userId, profileData }: ProfileManagerProps) {
                     onSave={handleSave}
                 />
             ) : (
-                <DisplayUserCard
+                <DisplayUserInfos
+                    userId={userId}
                     name={profileData.name}
                     bio={profileData.bio}
                     birthdate={profileData.birthdate}
@@ -60,24 +62,26 @@ export function ProfileManager({ userId, profileData }: ProfileManagerProps) {
                     contactLink={profileData.contactLink}
                 />
             )}
-            <div id="userOptions" className="flex border-none justify-evenly">
-                <button
-                    className="h-9 w-9 justify-center items-center"
-                    onClick={handleButtonClick}
-                >
-                    {isEditing ? <Check /> : <Pencil />}
-                </button>
-                {isEditing ? (
+            {isOwnProfile && (
+                <div id="userOptions" className="flex border-none justify-evenly">
                     <button
-                        className="h-9 w-9 justify-center items-center"
-                        onClick={handleCancel}
+                        className="squareButtons"
+                        onClick={handleButtonClick}
                     >
-                        <X />
+                        {isEditing ? <Check /> : <Pencil />}
                     </button>
-                ) : (
-                    <LogOutButton />
-                )}
-            </div>
+                    {isEditing ? (
+                        <button
+                            className="squareButtons"
+                            onClick={handleCancel}
+                        >
+                            <X />
+                        </button>
+                    ) : (
+                        <LogOutButton />
+                    )}
+                </div>
+            )}
         </>
     );
 }

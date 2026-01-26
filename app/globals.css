@@ -28,7 +28,8 @@ input,
 textarea,
 button,
 div,
-Link {
+Link,
+select {
   border: black;
   border-width: 1px;
   border-style: solid;
@@ -64,6 +65,13 @@ textarea {
 button {
   background-color: #ddffff;
   cursor: pointer;
+}
+
+.squareButtons {
+  height: calc(var(--spacing) * 9);
+  width: calc(var(--spacing) * 9);
+  justify-content: center;
+  align-items: center;
 }
 
 Link,

@@ -22,7 +22,7 @@ export const LogOutButton = () => {
     };
 
     return (
-        <button onClick={handleLogout} className="h-9 w-9 justify-center items-center" disabled={isLoading}>
+        <button onClick={handleLogout} className="squareButtons" disabled={isLoading}>
             {isLoading ? "Déconnexion..." : <LucideLogOut />}
         </button>
     );

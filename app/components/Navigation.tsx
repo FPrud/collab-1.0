@@ -2,8 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { LogOptions } from "./Connection/LogOptions";
-import { LogOutButton } from "./Connection/LogOutButton";
+import { LogOptions } from "./Connexion/LogOptions";
 import { AudioWaveform, Plus, User } from "lucide-react";
 
 interface NavigationProps {
@@ -24,20 +23,20 @@ export const Navigation = ({ isAuthenticated, userId }: NavigationProps) => {
 
     return (
         <>
-            <nav className="fixed bottom-0 right-0 left-0 z-10">
+            <nav className="fixed bottom-0 right-0 left-0 z-10 h-12 bg-emerald-100">
                 <div id="navigation-links" className="flex justify-around flex-wrap">
                     {isAuthenticated ? (
                         <>
                             <Link href="/">
-                                <div className="h-9 w-9">
+                                <div className="squareButtons">
                                     <AudioWaveform />
                                 </div>
                             </Link>
-                            <div className="h-9 w-9">
+                            <div className="squareButtons">
                                 <Plus />
                             </div>
                             <Link href={`/profile/${userId}`}>
-                                <div className="h-9 w-9">
+                                <div className="squareButtons">
                                     <User />
                                 </div>
                             </Link>
@@ -45,14 +44,14 @@ export const Navigation = ({ isAuthenticated, userId }: NavigationProps) => {
                     ) : (
                         <>
                             <Link href="/">
-                                <div className="h-9 w-9">
+                                <div className="squareButtons">
                                     <AudioWaveform className="self-center" />
                                 </div>
                             </Link>
-                            <div className="h-9 w-9 cursor-not-allowed">
+                            <div className="squareButtons cursor-not-allowed">
                                 <Plus className="self-center" />
                             </div>
-                            <button onClick={handleShowLogOptions} className="h-9 w-9">
+                            <button onClick={handleShowLogOptions} className="squareButtons">
                                 <User />
                             </button>
                         </>
