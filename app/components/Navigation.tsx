@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { LogOptions } from "./Connexion/LogOptions";
+import { LogOptions } from "./Connection/LogOptions";
 import { AudioWaveform, Plus, User } from "lucide-react";
 
 interface NavigationProps {

@@ -63,7 +63,12 @@ export function DisplayUserInfos({ userId, name, bio, birthdate, address, contac
                         <div key={skill.id} id="skill" className="flex justify-between border-none p-0">
                             <div className="flex gap-1 justify-center align-middle">
                                 <span>{skill.skillName}</span>
-                                {skill.genreName && <span>{skill.genreName}</span>}
+                                {skill.genreName &&
+                                    <>
+                                        <span>~</span>
+                                        <span>{skill.genreName}</span>
+                                    </>
+                                }
                             </div>
                         </div>
                     ))}

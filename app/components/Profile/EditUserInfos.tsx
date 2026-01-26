@@ -246,7 +246,12 @@ export function EditUserInfos({ userId, name, bio, birthdate, address, contactLi
                         <div key={skill.id} id="skill" className="flex justify-between border-none p-0">
                             <div className="flex gap-1 justify-center align-middle">
                                 <span>{skill.skillName}</span>
-                                {skill.genreName && <span>{skill.genreName}</span>}
+                                {skill.genreName &&
+                                    <>
+                                        <span>~</span>
+                                        <span>{skill.genreName}</span>
+                                    </>
+                                }
                             </div>
                             <button
                                 className="squareButtons"
@@ -257,52 +262,52 @@ export function EditUserInfos({ userId, name, bio, birthdate, address, contactLi
                         </div>
                     ))}
                     {showAddSkill ? (
-                        <div  className="flex flex-col gap-1">
-                                <select
+                        <div className="flex flex-col gap-1">
+                            <select
+                                className="w-full p-2"
+                                value={selectedSkillId || ""}
+                                onChange={handleSkillSelectChange}
+                            >
+                                <option value="">-- Sélectionner --</option>
+                                <option value="add-new">+ Ajouter une compétence</option>
+                                {availableSkills.map((skill) => (
+                                    <option key={skill.id} value={skill.id}>
+                                        {skill.skillName}
+                                    </option>
+                                ))}
+                            </select>
+                            {showCustomSkillInput && (
+                                <input
+                                    type="text"
+                                    className="w-full"
+                                    placeholder="Nom de la compétence"
+                                    value={customSkillName}
+                                    onChange={handleCustomSkillInput}
+                                />
+                            )}
+                            <select
+                                className="w-full p-2"
+                                value={selectedGenreId || "none"}
+                                onChange={handleGenreSelectChange}
+                                disabled={!selectedSkillId && !showCustomSkillInput}
+                            >
+                                <option value="none">Pas de genre</option>
+                                <option value="add-new">+ Ajouter un genre</option>
+                                {availableGenres.map((genre) => (
+                                    <option key={genre.id} value={genre.id}>
+                                        {genre.genreName}
+                                    </option>
+                                ))}
+                            </select>
+                            {showCustomGenreInput && (
+                                <input
+                                    type="text"
                                     className="w-full p-2"
-                                    value={selectedSkillId || ""}
-                                    onChange={handleSkillSelectChange}
-                                >
-                                    <option value="">-- Sélectionner --</option>
-                                    <option value="add-new">+ Ajouter une compétence</option>
-                                    {availableSkills.map((skill) => (
-                                        <option key={skill.id} value={skill.id}>
-                                            {skill.skillName}
-                                        </option>
-                                    ))}
-                                </select>
-                                {showCustomSkillInput && (
-                                    <input
-                                        type="text"
-                                        className="w-full"
-                                        placeholder="Nom de la compétence"
-                                        value={customSkillName}
-                                        onChange={handleCustomSkillInput}
-                                    />
-                                )}
-                                <select
-                                    className="w-full p-2"
-                                    value={selectedGenreId || "none"}
-                                    onChange={handleGenreSelectChange}
-                                    disabled={!selectedSkillId && !showCustomSkillInput}
-                                >
-                                    <option value="none">Pas de genre</option>
-                                    <option value="add-new">+ Ajouter un genre</option>
-                                    {availableGenres.map((genre) => (
-                                        <option key={genre.id} value={genre.id}>
-                                            {genre.genreName}
-                                        </option>
-                                    ))}
-                                </select>
-                                {showCustomGenreInput && (
-                                    <input
-                                        type="text"
-                                        className="w-full p-2"
-                                        placeholder="Nom du genre"
-                                        value={customGenreName}
-                                        onChange={handleCustomGenreInput}
-                                    />
-                                )}
+                                    placeholder="Nom du genre"
+                                    value={customGenreName}
+                                    onChange={handleCustomGenreInput}
+                                />
+                            )}
                             <div className="flex gap-1 justify-evenly border-none">
                                 <button
                                     className="squareButtons"
