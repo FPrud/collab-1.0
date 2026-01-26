@@ -4,7 +4,7 @@ import { db } from "@/src/db";
 import { userSkills } from "@/src/schema";
 import { eq, and } from "drizzle-orm";
 
-export async function deleteSkillProfile(userId: string, userSkillId: number) {
+export async function deleteProfileSkill(userId: string, userSkillId: number) {
   try {
     await db
       .delete(userSkills)

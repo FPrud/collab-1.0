@@ -6,8 +6,8 @@ import { getAllSkills } from "@/app/actions/skills/getAllSkills";
 import { getAllGenres } from "@/app/actions/skills/getAllGenres";
 import { createSkill } from "@/app/actions/skills/createSkill";
 import { createGenre } from "@/app/actions/skills/createGenre";
-import { addSkillProfile } from "@/app/actions/profile/addSkillProfile";
-import { deleteSkillProfile } from "@/app/actions/profile/deleteSkillProfile";
+import { addProfileSkill } from "@/app/actions/profile/addProfileSkill";
+import { deleteProfileSkill } from "@/app/actions/profile/deleteProfileSkill";
 import { Check, Minus, Plus, X } from "lucide-react";
 import { useState, useEffect } from "react";
 
@@ -181,7 +181,7 @@ export function EditUserInfos({ userId, name, bio, birthdate, address, contactLi
             return;
         }
 
-        const result = await addSkillProfile(userId, skillId, genreId);
+        const result = await addProfileSkill(userId, skillId, genreId);
         if ("error" in result) {
             alert(result.error);
             return;
@@ -201,7 +201,7 @@ export function EditUserInfos({ userId, name, bio, birthdate, address, contactLi
     };
 
     const handleDeleteSkill = async (userSkillId: number) => {
-        const result = await deleteSkillProfile(userId, userSkillId);
+        const result = await deleteProfileSkill(userId, userSkillId);
         if ("error" in result) {
             alert(result.error);
             return;

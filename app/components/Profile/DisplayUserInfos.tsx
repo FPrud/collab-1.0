@@ -45,6 +45,17 @@ export function DisplayUserInfos({ userId, name, bio, birthdate, address, contac
         return age;
     };
 
+    const isEmail = (value: string) => {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+    };
+
+    const getContactHref = (contactLink: string) => {
+        if (isEmail(contactLink)) {
+            return `mailto:${contactLink}`;
+        }
+        return contactLink.startsWith('http') ? contactLink : `https://${contactLink}`;
+    };
+
     return (
         <div id="userCard" className="gap-2">
             <div id="artistName" className="flex border-none justify-center">
@@ -87,7 +98,7 @@ export function DisplayUserInfos({ userId, name, bio, birthdate, address, contac
                 </div>
             )}
             {contactLink && (
-                <a target="_blank" href={contactLink}>
+                <a href={getContactHref(contactLink)} target={isEmail(contactLink) ? undefined : "_blank"}>
                     <button>Me contacter</button>
                 </a>
             )}

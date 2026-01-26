@@ -4,7 +4,7 @@ import { db } from "@/src/db";
 import { userSkills } from "@/src/schema";
 import { eq, and, sql } from "drizzle-orm";
 
-export async function addSkillProfile(
+export async function addProfileSkill(
   userId: string,
   skillId: number,
   genreId: number | null
