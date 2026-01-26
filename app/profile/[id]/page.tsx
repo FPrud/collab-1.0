@@ -1,5 +1,4 @@
 import { getProfile } from "@/app/actions/profile/getProfile";
-import { LogOutButton } from "@/app/components/Connexion/LogOutButton";
 import { ProfileManager } from "@/app/components/Profile/ProfileManager";
 import { notFound } from "next/navigation";
 import { use } from "react";

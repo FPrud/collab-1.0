@@ -20,7 +20,7 @@ export function DisplayUserCard({ name, bio, birthdate, address, contactLink }: 
 
     return (
         <div id="userCard" className="gap-2">
-            <div id="artistName" className="flex flex-wrap border-none p-0 justify-center">
+            <div id="artistName" className="flex border-none justify-center">
                 <h1>{name}</h1>
             </div>
             {bio && (

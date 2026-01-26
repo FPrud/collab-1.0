@@ -62,14 +62,14 @@ export function ProfileManager({ userId, profileData }: ProfileManagerProps) {
             )}
             <div id="userOptions" className="flex border-none justify-evenly">
                 <button
-                    className="h-9 w-9 justify-center items-center"
+                    className="squareButtons"
                     onClick={handleButtonClick}
                 >
                     {isEditing ? <Check /> : <Pencil />}
                 </button>
                 {isEditing ? (
                     <button
-                        className="h-9 w-9 justify-center items-center"
+                        className="squareButtons"
                         onClick={handleCancel}
                     >
                         <X />

@@ -30,9 +30,13 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Link href="/"><h1 id="logo" className="flex justify-center items-center">Co<AudioWaveform size="30" />ab'</h1></Link>
+        <div id="logoContainer" className=" bg-white">
+          <Link href="/">
+            <h1 id="logo" className="flex justify-center items-center">Co<AudioWaveform size="30" />ab'</h1>
+          </Link>
+        </div>
+          {children}
         <Navigation isAuthenticated={isAuthenticated} userId={userId} />
-        {children}
       </body>
     </html>
   );

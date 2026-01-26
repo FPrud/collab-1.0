@@ -66,6 +66,13 @@ button {
   cursor: pointer;
 }
 
+.squareButtons {
+  height: calc(var(--spacing) * 9);
+  width: calc(var(--spacing) * 9);
+  justify-content: center;
+  align-items: center;
+}
+
 Link,
 a {
   background-color: #ffffdd;

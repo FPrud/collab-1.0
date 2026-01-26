@@ -1,6 +1,7 @@
 "use client";
 
 import { editProfileData } from "@/app/actions/profile/editProfile";
+import { Plus } from "lucide-react";
 import { useState } from "react";
 
 interface EditUserInfosProps {
@@ -38,8 +39,8 @@ export function EditUserInfos({ userId, name, bio, birthdate, address, contactLi
 
     return (
         <>
-            <div id="userCard" className="gap-2">
-                <div id="artistName" className="flex flex-wrap border-none p-0 justify-center">
+            <div id="editUserCard" className="gap-2">
+                <div id="editArtistName" className="flex border-none justify-center">
                     <input
                         type="text"
                         name="name"
@@ -49,19 +50,23 @@ export function EditUserInfos({ userId, name, bio, birthdate, address, contactLi
                         className="text-2xl font-bold text-center"
                     />
                 </div>
-                <div id="userBio" className="border-none">
-                    <h2>Bio : </h2>
+                <div id="editUserBio" className="border-none">
+                    <h2>Bio</h2>
                     <textarea
                         name="bio"
                         value={formData.bio}
                         onChange={handleChange}
-                        placeholder="Parlez-nous de vous..."
+                        placeholder="Description de votre projet musical..."
                         rows={4}
                         className="w-full p-2"
                     />
                 </div>
-                <div id="userAge" className="border-none">
-                    <h2>Date de naissance : </h2>
+                <div id="editUserSkills" className="border-none flex flex-col">
+                    <h2>Compétence musicale</h2>
+                    <button className="squareButtons"><Plus/></button>
+                </div>
+                <div id="editUserAge" className="border-none">
+                    <h2>Date de naissance</h2>
                     <input
                         type="date"
                         name="birthdate"
@@ -70,8 +75,8 @@ export function EditUserInfos({ userId, name, bio, birthdate, address, contactLi
                         className="p-2"
                     />
                 </div>
-                <div id="userAddress" className="border-none">
-                    <h2>Adresse : </h2>
+                <div id="editUserAddress" className="border-none">
+                    <h2>Localisation</h2>
                     <input
                         type="text"
                         name="address"
@@ -81,8 +86,8 @@ export function EditUserInfos({ userId, name, bio, birthdate, address, contactLi
                         className="w-full p-2"
                     />
                 </div>
-                <div id="userContact" className="border-none">
-                    <h2>Lien de contact : </h2>
+                <div id="editUserContact" className="border-none">
+                    <h2>Lien de contact</h2>
                     <input
                         type="url"
                         name="contactLink"
