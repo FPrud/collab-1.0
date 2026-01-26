@@ -18,7 +18,7 @@ export default function ProfilePage({ params }: { params: Promise<{ id: string }
                 <div id="topLine" className="flex justify-between">
                     <div id="artistName" className="flex flex-wrap">
                         <h1>{profileData.name}</h1></div>
-                    <button className="h-9 w-9">
+                    <button className="h-9 w-9 justify-center items-center">
                         <Pencil />
                     </button>
                 </div>
