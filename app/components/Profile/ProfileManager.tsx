@@ -5,7 +5,7 @@ import { Pencil, Check, X } from "lucide-react";
 import { DisplayUserCard } from "./DisplayUserCard";
 import { EditUserInfos } from "./EditUserInfos";
 import { useRouter } from "next/navigation";
-import { LogOutButton } from "../Connexion/LogOutButton";
+import { LogOutButton } from "../Connection/LogOutButton";
 
 interface ProfileManagerProps {
     userId: string;

@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { LogOptions } from "./Connexion/LogOptions";
-import { LogOutButton } from "./Connexion/LogOutButton";
+import { LogOptions } from "./Connection/LogOptions";
+import { LogOutButton } from "./Connection/LogOutButton";
 import { AudioWaveform, Plus, User } from "lucide-react";
 
 interface NavigationProps {
