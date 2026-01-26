@@ -25,6 +25,7 @@ body {
 }
 
 input,
+textarea,
 button,
 div,
 Link {
@@ -33,6 +34,14 @@ Link {
   border-style: solid;
   border-radius: 5px;
   padding: 5px;
+}
+
+.border-none {
+  border: none
+}
+
+.p-0 {
+  padding: 0;
 }
 
 #navigation-links {
@@ -47,7 +56,8 @@ Link {
   justify-content: center;
 }
 
-input {
+input,
+textarea {
   background-color: #ffddff;
 }
 
@@ -73,20 +83,10 @@ a {
 
 h1 {
   font-size: x-large;
-  font-weight:bold
+  font-weight: bold
 }
 
 h2 {
   font-size: large;
-  font-weight:bold
-}
-
-#artistName,
-#topLine {
-  border: none;
-  padding: 0;
-}
-
-#userBio, #userAddress, #userAge {
-  border:none;
+  font-weight: bold
 }
