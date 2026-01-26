@@ -28,7 +28,8 @@ input,
 textarea,
 button,
 div,
-Link {
+Link,
+select {
   border: black;
   border-width: 1px;
   border-style: solid;

@@ -1,0 +1,91 @@
+"use client";
+
+import { getUserSkills } from "@/app/actions/skills/getUserSkills";
+import { useEffect, useState } from "react";
+
+interface DisplayUserCardProps {
+    userId: string;
+    name: string;
+    bio: string | null;
+    birthdate: string | null;
+    address: string | null;
+    contactLink: string | null;
+}
+
+interface UserSkill {
+    id: number;
+    skillId: number;
+    skillName: string | null;
+    genreId: number | null;
+    genreName: string | null;
+}
+
+export function DisplayUserInfos({ userId, name, bio, birthdate, address, contactLink }: DisplayUserCardProps) {
+    const [userSkills, setUserSkills] = useState<UserSkill[]>([]);
+
+    useEffect(() => {
+        loadUserSkills();
+    }, [userId]);
+
+    const loadUserSkills = async () => {
+        const result = await getUserSkills(userId);
+        if (!("error" in result)) {
+            setUserSkills(result as UserSkill[]);
+        }
+    };
+
+    const calculateAge = (birthdate: string) => {
+        const birth = new Date(birthdate);
+        const today = new Date();
+        let age = today.getFullYear() - birth.getFullYear();
+        const monthDiff = today.getMonth() - birth.getMonth();
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+            age--;
+        }
+        return age;
+    };
+
+    return (
+        <div id="userCard" className="gap-2">
+            <div id="artistName" className="flex border-none justify-center">
+                <h1>{name}</h1>
+            </div>
+            {bio && (
+                <div id="userBio" className="border-none">
+                    <h2>Bio</h2>
+                    <p>{bio}</p>
+                </div>
+            )}
+            {userSkills.length > 0 && (
+                <div id="userSkills" className="border-none flex flex-col gap-1">
+                    <h2>Compétences musicales</h2>
+                    {userSkills.map((skill) => (
+                        <div key={skill.id} id="skill" className="flex justify-between border-none p-0">
+                            <div className="flex gap-1 justify-center align-middle">
+                                <span>{skill.skillName}</span>
+                                {skill.genreName && <span>{skill.genreName}</span>}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            )}
+            {birthdate && (
+                <div id="userAge" className="border-none">
+                    <h2>Âge</h2>
+                    <p>{calculateAge(birthdate)} ans</p>
+                </div>
+            )}
+            {address && (
+                <div id="userAddress" className="border-none">
+                    <h2>Localisation</h2>
+                    <p>{address}</p>
+                </div>
+            )}
+            {contactLink && (
+                <a target="_blank" href={contactLink}>
+                    <button>Me contacter</button>
+                </a>
+            )}
+        </div>
+    );
+}
