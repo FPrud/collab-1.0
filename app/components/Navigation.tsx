@@ -61,7 +61,7 @@ export const Navigation = ({ isAuthenticated, userId }: NavigationProps) => {
                     )}
                 </div>
             </nav>
-            {showLogOptions && <LogOptions />}
+            {showLogOptions && <LogOptions onClose={() => setShowLogOptions(false)} />}
             {showCreatePost && (
                 <CreatePost
                     isAuthenticated={isAuthenticated}
@@ -72,4 +72,9 @@ export const Navigation = ({ isAuthenticated, userId }: NavigationProps) => {
             )}
         </>
     );
+};
+
+// Ajoutez cette fonction exportée pour vérifier si un overlay est actif
+export const useNavigationState = () => {
+    return { showLogOptions: false, showCreatePost: false };
 };

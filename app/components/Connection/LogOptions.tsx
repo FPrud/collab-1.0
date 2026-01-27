@@ -3,11 +3,15 @@
 import { logIn } from "@/app/actions/connection/logIn";
 import { signUp } from "@/app/actions/connection/signUp";
 import { useState } from "react";
-import { LogIn, User, UserPlus } from "lucide-react";
+import { LogIn, User, UserPlus, X } from "lucide-react";
 
 type TabType = "login" | "signup";
 
-export const LogOptions = () => {
+interface LogOptionsProps {
+    onClose: () => void;
+}
+
+export const LogOptions = ({ onClose }: LogOptionsProps) => {
     const [activeTab, setActiveTab] = useState<TabType>("login");
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -59,64 +63,66 @@ export const LogOptions = () => {
     };
 
     return (
-        <div id="logOptionsContainer" className="fixed left-0 right-0 flex flex-col justify-center gap-2 m-5">
-            <button
-                onClick={toggleTab}
-                className="flex items-center gap-2"
-            >
+        <div className="fixed top-12 left-0 right-0 bottom-12 bg-white z-20 p-4 flex flex-col justify-center">
+            <div id="logOptionsContainer" className="flex flex-col gap-2 m-5">
+                <button
+                    onClick={toggleTab}
+                    className="flex items-center gap-2"
+                >
+                    {activeTab === "login" ? (
+                        <>
+                            <UserPlus />
+                            <span>Créer un compte</span>
+                        </>
+                    ) : (
+                        <>
+                            <User />
+                            <span>Se connecter</span>
+                        </>
+                    )}
+                </button>
                 {activeTab === "login" ? (
-                    <>
-                        <UserPlus />
-                        <span>Créer un compte</span>
-                    </>
+                    <form onSubmit={handleLoginSubmit} className="flex flex-col gap-2">
+                        <label htmlFor="email" hidden>E-mail</label>
+                        <input name="email" type="email" placeholder="E-mail" required className="text-center"/>
+                        <label htmlFor="password" hidden>Mot de passe</label>
+                        <input name="password" type="password" placeholder="Mot de passe" required />
+                        {error && <p>{error}</p>}
+                        <button
+                            type="submit"
+                            disabled={isLoading}
+                            className="flex items-center gap-2">
+                            {isLoading ? "Connexion en cours..." : (
+                                <>
+                                    <LogIn />
+                                    <span>Se connecter</span>
+                                </>
+                            )}
+                        </button>
+                    </form>
                 ) : (
-                    <>
-                        <User />
-                        <span>Se connecter</span>
-                    </>
+                    <form onSubmit={handleSignupSubmit} className="flex flex-col gap-2">
+                        <label htmlFor="name" hidden>Nom d'artiste</label>
+                        <input name="name" type="text" placeholder="Nom d'artiste" required />
+                        <label htmlFor="email" hidden>E-mail</label>
+                        <input name="email" type="email" placeholder="E-mail" required />
+                        <label htmlFor="password" hidden>Mot de passe</label>
+                        <input name="password" type="password" placeholder="Mot de passe" required />
+                        {error && <p>{error}</p>}
+                        <button
+                            type="submit"
+                            disabled={isLoading}
+                            className="flex items-center gap-2">
+                            {isLoading ? "Inscription en cours..." : (
+                                <>
+                                    <LogIn />
+                                    <span>Créer un compte</span>
+                                </>
+                            )}
+                        </button>
+                    </form>
                 )}
-            </button>
-            {activeTab === "login" ? (
-                <form onSubmit={handleLoginSubmit} className="flex flex-col gap-2">
-                    <label htmlFor="email" hidden>E-mail</label>
-                    <input name="email" type="email" placeholder="E-mail" required className="text-center"/>
-                    <label htmlFor="password" hidden>Mot de passe</label>
-                    <input name="password" type="password" placeholder="Mot de passe" required />
-                    {error && <p>{error}</p>}
-                    <button
-                        type="submit"
-                        disabled={isLoading}
-                        className="flex items-center gap-2">
-                        {isLoading ? "Connexion en cours..." : (
-                            <>
-                                <LogIn />
-                                <span>Se connecter</span>
-                            </>
-                        )}
-                    </button>
-                </form>
-            ) : (
-                <form onSubmit={handleSignupSubmit} className="flex flex-col gap-2">
-                    <label htmlFor="name" hidden>Nom d'artiste</label>
-                    <input name="name" type="text" placeholder="Nom d'artiste" required />
-                    <label htmlFor="email" hidden>E-mail</label>
-                    <input name="email" type="email" placeholder="E-mail" required />
-                    <label htmlFor="password" hidden>Mot de passe</label>
-                    <input name="password" type="password" placeholder="Mot de passe" required />
-                    {error && <p>{error}</p>}
-                    <button
-                        type="submit"
-                        disabled={isLoading}
-                        className="flex items-center gap-2">
-                        {isLoading ? "Inscription en cours..." : (
-                            <>
-                                <LogIn />
-                                <span>Créer un compte</span>
-                            </>
-                        )}
-                    </button>
-                </form>
-            )}
+            </div>
         </div>
     );
 };

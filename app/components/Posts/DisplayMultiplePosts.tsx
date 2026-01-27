@@ -92,7 +92,7 @@ export function DisplayMultiplePosts({ userId }: DisplayManyPostsProps) {
   }
 
   return (
-    <div className="border-none p-0 gap-2">
+    <div id="MultiplePostsContainer" className="border-none p-0 flex flex-col gap-2">
       {posts.map((post) => (
         <Link key={post.id} href={`/annonce/${post.id}`}>
           <div>
