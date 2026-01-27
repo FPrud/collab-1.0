@@ -100,9 +100,11 @@ export function DisplayUserInfos({ userId, name, bio, birthdate, address, contac
                 </div>
             )}
             {contactLink && (
-                <a href={getContactHref(contactLink)} target={isEmail(contactLink) ? undefined : "_blank"}>
-                    <button>Me contacter</button>
-                </a>
+                <div className="border-none p-0 flex justify-center">
+                    <a href={getContactHref(contactLink)} target={isEmail(contactLink) ? undefined : "_blank"}>
+                        <button>Me contacter</button>
+                    </a>
+                </div>
             )}
         </div>
     );

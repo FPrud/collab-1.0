@@ -235,7 +235,7 @@ export function EditUserInfos({ userId, name, bio, birthdate, address, contactLi
                         name="bio"
                         value={formData.bio}
                         onChange={handleChange}
-                        placeholder="Description de votre projet musical..."
+                        placeholder="Description de votre parcours, et de votre projet musical. Qu'est-ce qui fait de vous un.e musicien.ne unique ?"
                         rows={4}
                         className="w-full p-2"
                     />

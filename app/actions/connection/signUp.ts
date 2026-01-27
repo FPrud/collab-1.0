@@ -42,5 +42,5 @@ export const signUp = async (formData: FormData) => {
         contactLink: null
     });
 
-    return { success: true };
+    return { success: true, userId: userId };
 };

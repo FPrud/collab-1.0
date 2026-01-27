@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Pencil, Check, X } from "lucide-react";
 import { DisplayUserInfos } from "./DisplayUserInfos";
 import { EditUserInfos } from "./EditUserInfos";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { LogOutButton } from "../Connection/LogOutButton";
 
 interface ProfileManagerProps {
@@ -20,8 +20,17 @@ interface ProfileManagerProps {
 }
 
 export function ProfileManager({ userId, profileData, isOwnProfile }: ProfileManagerProps) {
-    const [isEditing, setIsEditing] = useState(false);
+    const searchParams = useSearchParams();
+    const [isEditing, setIsEditing] = useState(searchParams.get('edit') === 'true' && isOwnProfile);
     const router = useRouter();
+
+    useEffect(() => {
+        if (searchParams.get('edit') === 'true' && isOwnProfile) {
+            // Nettoyer l'URL après avoir activé le mode édition
+            router.replace(`/profil/${userId}`);
+        }
+    }, [searchParams, isOwnProfile, router, userId]);
+
 
     const handleSave = () => {
         setIsEditing(false);

@@ -47,8 +47,8 @@ export const LogOptions = ({ onClose }: LogOptionsProps) => {
             const formData = new FormData(e.currentTarget);
             const result = await signUp(formData);
 
-            if (result?.success) {
-                window.location.href = "/";
+            if (result?.success && result.userId) {
+                window.location.href = `/profil/${result.userId}?edit=true`;
             }
         } catch (error: any) {
             console.error("Erreur lors de l'inscription :", error);
