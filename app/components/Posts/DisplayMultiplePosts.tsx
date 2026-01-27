@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { getAllPosts } from "@/app/actions/posts/getAllPosts";
 import { getUserPosts } from "@/app/actions/posts/getUserPosts";
+import { getFilteredPosts } from "@/app/actions/posts/getFilteredPosts";
 import { getPostSkills } from "@/app/actions/skills/getPostSkills";
 import { DisplayPost } from "./DisplayPost";
 
@@ -27,9 +28,10 @@ interface SearchedSkill {
 
 interface DisplayManyPostsProps {
   userId?: string;
+  searchTerms?: string[];
 }
 
-export function DisplayMultiplePosts({ userId }: DisplayManyPostsProps) {
+export function DisplayMultiplePosts({ userId, searchTerms }: DisplayManyPostsProps) {
   const [posts, setPosts] = useState<Post[]>([]);
   const [postSkills, setPostSkills] = useState<Record<number, SearchedSkill[]>>({});
   const [offset, setOffset] = useState(0);
@@ -43,7 +45,7 @@ export function DisplayMultiplePosts({ userId }: DisplayManyPostsProps) {
     setOffset(0);
     setHasMore(true);
     loadPosts(0);
-  }, [userId]);
+  }, [userId, searchTerms]);
 
   const loadPosts = async (currentOffset: number) => {
     if (loadingRef.current) return;
@@ -51,9 +53,14 @@ export function DisplayMultiplePosts({ userId }: DisplayManyPostsProps) {
     loadingRef.current = true;
     setLoading(true);
     
-    const result = userId
-      ? await getUserPosts(userId, currentOffset)
-      : await getAllPosts(currentOffset);
+    let result;
+    if (searchTerms && searchTerms.length > 0) {
+      result = await getFilteredPosts(searchTerms, currentOffset);
+    } else if (userId) {
+      result = await getUserPosts(userId, currentOffset);
+    } else {
+      result = await getAllPosts(currentOffset);
+    }
 
     if ("error" in result) {
       console.error(result.error);
