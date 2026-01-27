@@ -20,7 +20,7 @@ export async function getAllPosts(offset: number = 0, limit: number = 20) {
       .leftJoin(user, eq(posts.userId, user.id))
       .leftJoin(profiles, eq(posts.userId, profiles.userId))
       .where(eq(posts.postActiveStatus, true))
-      .orderBy(desc(posts.createdAt))
+      .orderBy(desc(posts.createdAt), desc(posts.id))
       .limit(limit)
       .offset(offset);
 

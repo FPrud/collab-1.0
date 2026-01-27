@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { getAllPosts } from "@/app/actions/posts/getAllPosts";
 import { getUserPosts } from "@/app/actions/posts/getUserPosts";
@@ -35,20 +35,30 @@ export function DisplayMultiplePosts({ userId }: DisplayManyPostsProps) {
   const [offset, setOffset] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
+  const loadingRef = useRef(false);
 
   useEffect(() => {
-    loadPosts();
+    setPosts([]);
+    setPostSkills({});
+    setOffset(0);
+    setHasMore(true);
+    loadPosts(0);
   }, [userId]);
 
-  const loadPosts = async () => {
+  const loadPosts = async (currentOffset: number) => {
+    if (loadingRef.current) return;
+    
+    loadingRef.current = true;
     setLoading(true);
+    
     const result = userId
-      ? await getUserPosts(userId, offset)
-      : await getAllPosts(offset);
+      ? await getUserPosts(userId, currentOffset)
+      : await getAllPosts(currentOffset);
 
     if ("error" in result) {
       console.error(result.error);
       setLoading(false);
+      loadingRef.current = false;
       return;
     }
 
@@ -58,7 +68,11 @@ export function DisplayMultiplePosts({ userId }: DisplayManyPostsProps) {
       setHasMore(false);
     }
 
-    setPosts([...posts, ...newPosts]);
+    setPosts((prevPosts) => {
+      const existingIds = new Set(prevPosts.map(p => p.id));
+      const uniqueNewPosts = newPosts.filter(p => !existingIds.has(p.id));
+      return [...prevPosts, ...uniqueNewPosts];
+    });
 
     const skillsPromises = newPosts.map(async (post) => {
       const skillsResult = await getPostSkills(post.id);
@@ -74,13 +88,16 @@ export function DisplayMultiplePosts({ userId }: DisplayManyPostsProps) {
       return acc;
     }, {} as Record<number, SearchedSkill[]>);
 
-    setPostSkills({ ...postSkills, ...skillsMap });
+    setPostSkills((prevSkills) => ({ ...prevSkills, ...skillsMap }));
     setLoading(false);
+    loadingRef.current = false;
   };
 
   const loadMore = () => {
-    setOffset(offset + 20);
-    loadPosts();
+    if (loading) return;
+    const newOffset = offset + 20;
+    setOffset(newOffset);
+    loadPosts(newOffset);
   };
 
   if (posts.length === 0 && !loading) {
@@ -94,15 +111,18 @@ export function DisplayMultiplePosts({ userId }: DisplayManyPostsProps) {
   return (
     <div id="MultiplePostsContainer" className="border-none p-0 flex flex-col gap-2">
       {posts.map((post) => (
-        <Link key={post.id} href={`/annonce/${post.id}`}>
-          <div>
-            <DisplayPost
-              post={post}
-              searchedSkills={postSkills[post.id] || []}
-              showFullContent={false}
-            />
+        <div key={post.id}>
+          <DisplayPost
+            post={post}
+            searchedSkills={postSkills[post.id] || []}
+            showFullContent={false}
+          />
+          <div className="border-none p-0 flex justify-center mt-2">
+            <Link href={`/annonce/${post.id}`}>
+              <button>Voir l'annonce</button>
+            </Link>
           </div>
-        </Link>
+        </div>
       ))}
 
       {hasMore && (

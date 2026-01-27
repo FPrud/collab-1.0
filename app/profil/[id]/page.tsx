@@ -1,5 +1,6 @@
 import { getProfile } from "@/app/actions/profile/getProfile";
 import { ProfileManager } from "@/app/components/Profile/ProfileManager";
+import { DisplayMultiplePosts } from "@/app/components/Posts/DisplayMultiplePosts";
 import { notFound } from "next/navigation";
 import { auth } from "@/src/auth";
 import { headers } from "next/headers";
@@ -21,11 +22,16 @@ export default async function ProfilePage({ params }: { params: Promise<{ id: st
 
     return (
         <main className="flex flex-col p-2">
-            <ProfileManager 
-                userId={userId} 
-                profileData={profileData} 
+            <ProfileManager
+                userId={userId}
+                profileData={profileData}
                 isOwnProfile={isOwnProfile}
             />
+            
+            <section className="mt-6">
+                <h2 className="text-xl font-semibold mb-4">Annonces de {profileData.name}</h2>
+                <DisplayMultiplePosts userId={userId} />
+            </section>
         </main>
     );
 }
