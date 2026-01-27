@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Pencil, Trash2 } from "lucide-react";
 
 interface Post {
     id: number;
@@ -22,9 +23,19 @@ interface DisplayPostProps {
     post: Post;
     searchedSkills: SearchedSkill[];
     showFullContent?: boolean;
+    isAuthor?: boolean;
+    onEdit?: () => void;
+    onDelete?: () => void;
 }
 
-export function DisplayPost({ post, searchedSkills, showFullContent = true }: DisplayPostProps) {
+export function DisplayPost({ 
+    post, 
+    searchedSkills, 
+    showFullContent = true,
+    isAuthor = false,
+    onEdit,
+    onDelete
+}: DisplayPostProps) {
     const formatDate = (date: Date) => {
         return new Intl.DateTimeFormat("fr-FR", {
             day: "numeric",
@@ -86,21 +97,34 @@ export function DisplayPost({ post, searchedSkills, showFullContent = true }: Di
             )}
 
             {showFullContent && (
-                <div className="border-none p-0 flex justify-evenly">
-                    <Link href={`/profil/${post.userId}`}>
-                        <button>Voir le profil</button>
-                    </Link>
+                <>
+                    {isAuthor ? (
+                        <div className="border-none p-0 flex justify-evenly">
+                            <button onClick={onEdit} className="squareButtons">
+                                <Pencil />
+                            </button>
+                            <button onClick={onDelete} className="squareButtons">
+                                <Trash2 />
+                            </button>
+                        </div>
+                    ) : (
+                        <div className="border-none p-0 flex justify-evenly">
+                            <Link href={`/profil/${post.userId}`}>
+                                <button>Voir le profil</button>
+                            </Link>
 
-                    {post.contactLink && (
-                        <a
-                            href={getContactHref(post.contactLink)}
-                            target={isEmail(post.contactLink) ? undefined : "_blank"}
-                            rel={isEmail(post.contactLink) ? undefined : "noopener noreferrer"}
-                        >
-                            <button>Contacter</button>
-                        </a>
+                            {post.contactLink && (
+                                <a
+                                    href={getContactHref(post.contactLink)}
+                                    target={isEmail(post.contactLink) ? undefined : "_blank"}
+                                    rel={isEmail(post.contactLink) ? undefined : "noopener noreferrer"}
+                                >
+                                    <button>Contacter</button>
+                                </a>
+                            )}
+                        </div>
                     )}
-                </div>
+                </>
             )}
         </>
     );

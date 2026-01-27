@@ -1,21 +1,35 @@
 "use client";
 
-import { useState } from "react";
-import { User, X, Check, Plus, Minus } from "lucide-react";
+import { useState, useEffect } from "react";
+import { User, X, Check, Plus, Minus, Trash2 } from "lucide-react";
 import { createPost } from "@/app/actions/posts/createPost";
+import { editPost } from "@/app/actions/posts/editPost";
 import { addPostSkill } from "@/app/actions/posts/addPostSkill";
 import { deleteSearchedSkill } from "@/app/actions/posts/deleteSearchedSkill";
 import { getAllSkills } from "@/app/actions/skills/getAllSkills";
 import { getAllGenres } from "@/app/actions/skills/getAllGenres";
 import { createSkill } from "@/app/actions/skills/createSkill";
 import { createGenre } from "@/app/actions/skills/createGenre";
-import { useEffect } from "react";
 
-interface CreatePostProps {
+interface PostEditorProps {
   isAuthenticated: boolean;
   userId?: string;
   onClose: () => void;
   onShowLogOptions: () => void;
+  onCancel?: () => void;
+  onDelete?: () => void;
+  existingPost?: {
+    id: number;
+    title: string;
+    content: string;
+  };
+  existingSkills?: Array<{
+    id: number;
+    skillId: number;
+    skillName: string | null;
+    genreId: number | null;
+    genreName: string | null;
+  }>;
 }
 
 interface SearchedSkill {
@@ -36,10 +50,19 @@ interface Genre {
   genreName: string;
 }
 
-export function CreatePost({ isAuthenticated, userId, onClose, onShowLogOptions }: CreatePostProps) {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [searchedSkills, setSearchedSkills] = useState<SearchedSkill[]>([]);
+export function PostEditor({
+  isAuthenticated,
+  userId,
+  onClose,
+  onShowLogOptions,
+  onCancel,
+  onDelete,
+  existingPost,
+  existingSkills = []
+}: PostEditorProps) {
+  const [title, setTitle] = useState(existingPost?.title || "");
+  const [content, setContent] = useState(existingPost?.content || "");
+  const [searchedSkills, setSearchedSkills] = useState<SearchedSkill[]>(existingSkills);
   const [availableSkills, setAvailableSkills] = useState<Skill[]>([]);
   const [availableGenres, setAvailableGenres] = useState<Genre[]>([]);
   const [showAddSkill, setShowAddSkill] = useState(false);
@@ -49,7 +72,9 @@ export function CreatePost({ isAuthenticated, userId, onClose, onShowLogOptions 
   const [customGenreName, setCustomGenreName] = useState("");
   const [showCustomSkillInput, setShowCustomSkillInput] = useState(false);
   const [showCustomGenreInput, setShowCustomGenreInput] = useState(false);
-  const [tempPostId, setTempPostId] = useState<number | null>(null);
+  const [skillsToDelete, setSkillsToDelete] = useState<number[]>([]);
+
+  const isEditMode = !!existingPost;
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -161,14 +186,13 @@ export function CreatePost({ isAuthenticated, userId, onClose, onShowLogOptions 
       return;
     }
 
-    // Ajouter temporairement à l'état local
     const skillName = availableSkills.find(s => s.id === skillId)?.skillName || customSkillName;
     const genreName = genreId ? (availableGenres.find(g => g.id === genreId)?.genreName || null) : null;
 
     setSearchedSkills([
       ...searchedSkills,
       {
-        id: Date.now(), // ID temporaire
+        id: Date.now(),
         skillId: skillId,
         skillName: skillName,
         genreId: genreId,
@@ -176,7 +200,6 @@ export function CreatePost({ isAuthenticated, userId, onClose, onShowLogOptions 
       }
     ]);
 
-    // Réinitialiser le formulaire
     setShowAddSkill(false);
     setSelectedSkillId(null);
     setSelectedGenreId(null);
@@ -186,7 +209,14 @@ export function CreatePost({ isAuthenticated, userId, onClose, onShowLogOptions 
     setShowCustomGenreInput(false);
   };
 
-  const handleDeleteSkill = (index: number) => {
+  const handleDeleteSkill = async (index: number) => {
+    const skill = searchedSkills[index];
+
+    // Si le skill existe en DB (id < Date.now()), marquer pour suppression
+    if (existingPost && skill.id < Date.now()) {
+      setSkillsToDelete([...skillsToDelete, skill.id]);
+    }
+
     setSearchedSkills(searchedSkills.filter((_, i) => i !== index));
   };
 
@@ -198,24 +228,42 @@ export function CreatePost({ isAuthenticated, userId, onClose, onShowLogOptions 
       return;
     }
 
-    // Créer le post
-    const postResult = await createPost(userId, title, content);
-    if ("error" in postResult) {
-      alert(postResult.error);
-      return;
+    let postId: number;
+
+    if (isEditMode) {
+      // Mode édition
+      const editResult = await editPost(existingPost.id, title, content);
+      if ("error" in editResult) {
+        alert(editResult.error);
+        return;
+      }
+      postId = existingPost.id;
+
+      // Supprimer les skills marqués pour suppression
+      for (const skillId of skillsToDelete) {
+        await deleteSearchedSkill(skillId);
+      }
+    } else {
+      // Mode création
+      const postResult = await createPost(userId, title, content);
+      if ("error" in postResult) {
+        alert(postResult.error);
+        return;
+      }
+      postId = postResult.post!.id;
     }
 
-    const postId = postResult.post!.id;
-
-    // Ajouter les tags recherchés
+    // Ajouter les nouveaux tags (ceux avec id temporaire)
     for (const skill of searchedSkills) {
-      await addPostSkill(postId, skill.skillId, skill.genreId);
+      if (skill.id >= Date.now() || !isEditMode) {
+        await addPostSkill(postId, skill.skillId, skill.genreId);
+      }
     }
 
-    // Réinitialiser et fermer
     setTitle("");
     setContent("");
     setSearchedSkills([]);
+    setSkillsToDelete([]);
     onClose();
   };
 
@@ -237,7 +285,7 @@ export function CreatePost({ isAuthenticated, userId, onClose, onShowLogOptions 
   }
 
   return (
-    <div className="fixed top-12 left-0 right-0 bottom-12 bg-white z-20 p-4 overflow-y-auto">
+    <div className={existingPost ? "" : "fixed top-12 left-0 right-0 bottom-12 bg-white z-20 p-4 overflow-y-auto"}>
       <div className="flex flex-col gap-2">
         <div className="border-none">
           <div className="border-none">
@@ -263,7 +311,7 @@ export function CreatePost({ isAuthenticated, userId, onClose, onShowLogOptions 
           <textarea
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            placeholder="Décrivez votre recherche de collaboration. Respectez les règles de la communauté : pas de harcèlement, pas de discrimination, pas de menace, pas de discours de haine. Soyez précis sur vos besoins pour faciliter la recherche."
+            placeholder="Décrivez votre recherche de collaboration..."
             rows={6}
             className="w-full p-2"
           />
@@ -272,7 +320,7 @@ export function CreatePost({ isAuthenticated, userId, onClose, onShowLogOptions 
         <div className="border-none flex flex-col gap-1">
           <h2>Vous recherchez ({searchedSkills.length}/5)</h2>
           {searchedSkills.map((skill, index) => (
-            <div key={index} className="flex justify-between border-none p-0">
+            <div key={skill.id} className="flex justify-between border-none p-0">
               <div className="flex gap-1 justify-center align-middle">
                 <span>{skill.skillName}</span>
                 {skill.genreName && (
@@ -371,9 +419,23 @@ export function CreatePost({ isAuthenticated, userId, onClose, onShowLogOptions 
           )}
         </div>
 
-        <button onClick={handleSubmit}>
-          Publier l&apos;annonce
-        </button>
+        {existingPost ? (
+          <div className="border-none p-0 flex justify-evenly">
+            <button className="squareButtons" onClick={handleSubmit}>
+              <Check />
+            </button>
+            <button className="squareButtons" onClick={onCancel}>
+              <X />
+            </button>
+            <button className="squareButtons" onClick={onDelete}>
+              <Trash2 />
+            </button>
+          </div>
+        ) : (
+          <button onClick={handleSubmit}>
+            Publier l'annonce
+          </button>
+        )}
       </div>
     </div>
   );

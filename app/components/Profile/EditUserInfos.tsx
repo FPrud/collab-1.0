@@ -19,6 +19,7 @@ interface EditUserInfosProps {
     address: string | null;
     contactLink: string | null;
     onSave: () => void;
+    onCancel: () => void;
 }
 
 interface UserSkill {
@@ -39,7 +40,16 @@ interface Genre {
     genreName: string;
 }
 
-export function EditUserInfos({ userId, name, bio, birthdate, address, contactLink, onSave }: EditUserInfosProps) {
+export function EditUserInfos({
+    userId,
+    name,
+    bio,
+    birthdate,
+    address,
+    contactLink,
+    onSave,
+    onCancel
+}: EditUserInfosProps) {
     const [formData, setFormData] = useState({
         name: name || "",
         bio: bio || "",
@@ -373,8 +383,15 @@ export function EditUserInfos({ userId, name, bio, birthdate, address, contactLi
                         className="w-full p-2"
                     />
                 </div>
+                <div className="border-none p-0 flex justify-evenly">
+                    <button className="squareButtons" onClick={handleSubmit}>
+                        <Check />
+                    </button>
+                    <button className="squareButtons" onClick={onCancel}>
+                        <X />
+                    </button>
+                </div>
             </div>
-            <button onClick={handleSubmit} style={{ display: 'none' }} id="submitBtn" />
         </>
     );
 }

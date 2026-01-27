@@ -1,11 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Pencil, Check, X } from "lucide-react";
 import { DisplayUserInfos } from "./DisplayUserInfos";
 import { EditUserInfos } from "./EditUserInfos";
 import { useRouter, useSearchParams } from "next/navigation";
-import { LogOutButton } from "../Connection/LogOutButton";
 
 interface ProfileManagerProps {
     userId: string;
@@ -26,11 +24,9 @@ export function ProfileManager({ userId, profileData, isOwnProfile }: ProfileMan
 
     useEffect(() => {
         if (searchParams.get('edit') === 'true' && isOwnProfile) {
-            // Nettoyer l'URL après avoir activé le mode édition
             router.replace(`/profil/${userId}`);
         }
     }, [searchParams, isOwnProfile, router, userId]);
-
 
     const handleSave = () => {
         setIsEditing(false);
@@ -41,36 +37,12 @@ export function ProfileManager({ userId, profileData, isOwnProfile }: ProfileMan
         setIsEditing(false);
     };
 
-    const handleButtonClick = () => {
-        if (isEditing) {
-            document.getElementById('submitBtn')?.click();
-        } else {
-            setIsEditing(true);
-        }
+    const handleEdit = () => {
+        setIsEditing(true);
     };
 
     return (
         <>
-        {isOwnProfile && (
-                <div id="userOptions" className="flex border-none justify-evenly">
-                    <button
-                        className="squareButtons"
-                        onClick={handleButtonClick}
-                    >
-                        {isEditing ? <Check /> : <Pencil />}
-                    </button>
-                    {isEditing ? (
-                        <button
-                            className="squareButtons"
-                            onClick={handleCancel}
-                        >
-                            <X />
-                        </button>
-                    ) : (
-                        <LogOutButton />
-                    )}
-                </div>
-            )}
             {isEditing ? (
                 <EditUserInfos
                     userId={userId}
@@ -80,6 +52,7 @@ export function ProfileManager({ userId, profileData, isOwnProfile }: ProfileMan
                     address={profileData.address}
                     contactLink={profileData.contactLink}
                     onSave={handleSave}
+                    onCancel={handleCancel}
                 />
             ) : (
                 <DisplayUserInfos
@@ -89,6 +62,8 @@ export function ProfileManager({ userId, profileData, isOwnProfile }: ProfileMan
                     birthdate={profileData.birthdate}
                     address={profileData.address}
                     contactLink={profileData.contactLink}
+                    isOwnProfile={isOwnProfile}
+                    onEdit={handleEdit}
                 />
             )}
         </>

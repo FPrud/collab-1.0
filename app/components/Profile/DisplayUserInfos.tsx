@@ -2,6 +2,8 @@
 
 import { getUserSkills } from "@/app/actions/skills/getUserSkills";
 import { useEffect, useState } from "react";
+import { Pencil } from "lucide-react";
+import { LogOutButton } from "../Connection/LogOutButton";
 
 interface DisplayUserCardProps {
     userId: string;
@@ -10,6 +12,8 @@ interface DisplayUserCardProps {
     birthdate: string | null;
     address: string | null;
     contactLink: string | null;
+    isOwnProfile?: boolean;
+    onEdit?: () => void;
 }
 
 interface UserSkill {
@@ -20,7 +24,16 @@ interface UserSkill {
     genreName: string | null;
 }
 
-export function DisplayUserInfos({ userId, name, bio, birthdate, address, contactLink }: DisplayUserCardProps) {
+export function DisplayUserInfos({ 
+    userId, 
+    name, 
+    bio, 
+    birthdate, 
+    address, 
+    contactLink,
+    isOwnProfile = false,
+    onEdit
+}: DisplayUserCardProps) {
     const [userSkills, setUserSkills] = useState<UserSkill[]>([]);
 
     useEffect(() => {
@@ -100,10 +113,25 @@ export function DisplayUserInfos({ userId, name, bio, birthdate, address, contac
                 </div>
             )}
             {contactLink && (
-                <div className="border-none p-0 flex justify-center">
-                    <a href={getContactHref(contactLink)} target={isEmail(contactLink) ? undefined : "_blank"}>
-                        <button>Me contacter</button>
-                    </a>
+                <div id="userContact" className="border-none">
+                    <h2>Contact</h2>
+                    {isOwnProfile ? (
+                        <p>{contactLink}</p>
+                    ) : (
+                        <div className="border-none p-0 flex justify-center">
+                            <a href={getContactHref(contactLink)} target={isEmail(contactLink) ? undefined : "_blank"} rel={isEmail(contactLink) ? undefined : "noopener noreferrer"}>
+                                <button>Me contacter</button>
+                            </a>
+                        </div>
+                    )}
+                </div>
+            )}
+            {isOwnProfile && (
+                <div className="border-none p-0 flex justify-evenly">
+                    <button onClick={onEdit} className="squareButtons">
+                        <Pencil />
+                    </button>
+                    <LogOutButton />
                 </div>
             )}
         </div>

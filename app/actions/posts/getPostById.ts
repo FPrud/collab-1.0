@@ -1,8 +1,8 @@
 "use server";
 
 import { db } from "@/src/db";
-import { posts, user, profiles, searchedSkills, musicSkills, musicGenres } from "@/src/schema";
-import { eq } from "drizzle-orm";
+import { posts, user, profiles } from "@/src/schema";
+import { eq, and } from "drizzle-orm";
 
 export async function getPostById(postId: number) {
   try {
@@ -19,7 +19,12 @@ export async function getPostById(postId: number) {
       .from(posts)
       .leftJoin(user, eq(posts.userId, user.id))
       .leftJoin(profiles, eq(posts.userId, profiles.userId))
-      .where(eq(posts.id, postId))
+      .where(
+        and(
+          eq(posts.id, postId),
+          eq(posts.postActiveStatus, true)
+        )
+      )
       .limit(1);
 
     if (post.length === 0) {

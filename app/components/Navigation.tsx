@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { LogOptions } from "./Connection/LogOptions";
-import { CreatePost } from "./Posts/CreatePost";
+import { PostEditor } from "./Posts/PostEditor";
 import { AudioWaveform, Plus, User, X } from "lucide-react";
 
 interface NavigationProps {
@@ -13,7 +13,7 @@ interface NavigationProps {
 
 export const Navigation = ({ isAuthenticated, userId }: NavigationProps) => {
     const [showLogOptions, setShowLogOptions] = useState(false);
-    const [showCreatePost, setShowCreatePost] = useState(false);
+    const [showPostEditor, setShowPostEditor] = useState(false);
 
     useEffect(() => {
         console.log("Navigation - isAuthenticated:", isAuthenticated);
@@ -21,11 +21,11 @@ export const Navigation = ({ isAuthenticated, userId }: NavigationProps) => {
 
     const handleShowLogOptions = () => {
         setShowLogOptions(!showLogOptions);
-        setShowCreatePost(false);
+        setShowPostEditor(false);
     };
 
-    const handleShowCreatePost = () => {
-        setShowCreatePost(!showCreatePost);
+    const handleShowPostEditor = () => {
+        setShowPostEditor(!showPostEditor);
         setShowLogOptions(false);
     };
 
@@ -40,8 +40,8 @@ export const Navigation = ({ isAuthenticated, userId }: NavigationProps) => {
                     </Link>
                     {isAuthenticated ? (
                         <>
-                            <button onClick={handleShowCreatePost} className="squareButtons">
-                                {showCreatePost ? <X /> : <Plus />}
+                            <button onClick={handleShowPostEditor} className="squareButtons">
+                                {showPostEditor ? <X /> : <Plus />}
                             </button>
                             <Link href={`/profil/${userId}`}>
                                 <div className="squareButtons">
@@ -51,8 +51,8 @@ export const Navigation = ({ isAuthenticated, userId }: NavigationProps) => {
                         </>
                     ) : (
                         <>
-                            <button onClick={handleShowCreatePost} className="squareButtons">
-                                {showCreatePost ? <X /> : <Plus />}
+                            <button onClick={handleShowPostEditor} className="squareButtons">
+                                {showPostEditor ? <X /> : <Plus />}
                             </button>
                             <button onClick={handleShowLogOptions} className="squareButtons">
                                 <User />
@@ -62,11 +62,11 @@ export const Navigation = ({ isAuthenticated, userId }: NavigationProps) => {
                 </div>
             </nav>
             {showLogOptions && <LogOptions onClose={() => setShowLogOptions(false)} />}
-            {showCreatePost && (
-                <CreatePost
+            {showPostEditor && (
+                <PostEditor
                     isAuthenticated={isAuthenticated}
                     userId={userId}
-                    onClose={() => setShowCreatePost(false)}
+                    onClose={() => setShowPostEditor(false)}
                     onShowLogOptions={handleShowLogOptions}
                 />
             )}
@@ -76,5 +76,5 @@ export const Navigation = ({ isAuthenticated, userId }: NavigationProps) => {
 
 // Ajoutez cette fonction exportée pour vérifier si un overlay est actif
 export const useNavigationState = () => {
-    return { showLogOptions: false, showCreatePost: false };
+    return { showLogOptions: false, showPostEditor: false };
 };
