@@ -42,6 +42,26 @@ export function ProfileManager({ userId, profileData, isOwnProfile }: ProfileMan
 
     return (
         <>
+        {isOwnProfile && (
+                <div id="userOptions" className="flex border-none justify-evenly">
+                    <button
+                        className="squareButtons"
+                        onClick={handleButtonClick}
+                    >
+                        {isEditing ? <Check /> : <Pencil />}
+                    </button>
+                    {isEditing ? (
+                        <button
+                            className="squareButtons"
+                            onClick={handleCancel}
+                        >
+                            <X />
+                        </button>
+                    ) : (
+                        <LogOutButton />
+                    )}
+                </div>
+            )}
             {isEditing ? (
                 <EditUserInfos
                     userId={userId}
@@ -61,26 +81,6 @@ export function ProfileManager({ userId, profileData, isOwnProfile }: ProfileMan
                     address={profileData.address}
                     contactLink={profileData.contactLink}
                 />
-            )}
-            {isOwnProfile && (
-                <div id="userOptions" className="flex border-none justify-evenly">
-                    <button
-                        className="squareButtons"
-                        onClick={handleButtonClick}
-                    >
-                        {isEditing ? <Check /> : <Pencil />}
-                    </button>
-                    {isEditing ? (
-                        <button
-                            className="squareButtons"
-                            onClick={handleCancel}
-                        >
-                            <X />
-                        </button>
-                    ) : (
-                        <LogOutButton />
-                    )}
-                </div>
             )}
         </>
     );

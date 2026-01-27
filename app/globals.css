@@ -37,6 +37,14 @@ select {
   padding: 5px;
 }
 
+main{
+  border: none;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 5px;
+}
+
 .border-none {
   border: none
 }
@@ -76,8 +84,12 @@ button {
 
 Link,
 a {
-  background-color: #ffffdd;
+  color: darkslategrey;
   cursor: pointer;
+}
+
+#logoContainer {
+  border-radius: 0 0 5px 5px;
 }
 
 #logo {

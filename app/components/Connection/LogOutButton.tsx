@@ -1,7 +1,7 @@
 "use client";
 
 import { logOut } from "@/app/actions/connection/logOut";
-import { LucideLogOut } from "lucide-react";
+import { LucideLogOut, PowerOff } from "lucide-react";
 import { useState } from "react";
 
 export const LogOutButton = () => {
@@ -23,7 +23,7 @@ export const LogOutButton = () => {
 
     return (
         <button onClick={handleLogout} className="squareButtons" disabled={isLoading}>
-            {isLoading ? "Déconnexion..." : <LucideLogOut />}
+            {isLoading ? <PowerOff/> : <LucideLogOut />}
         </button>
     );
 };

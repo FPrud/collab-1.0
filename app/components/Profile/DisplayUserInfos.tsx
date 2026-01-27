@@ -70,19 +70,21 @@ export function DisplayUserInfos({ userId, name, bio, birthdate, address, contac
             {userSkills.length > 0 && (
                 <div id="userSkills" className="border-none flex flex-col gap-1">
                     <h2>Compétences musicales</h2>
-                    {userSkills.map((skill) => (
-                        <div key={skill.id} id="skill" className="flex justify-between border-none p-0">
-                            <div className="flex gap-1 justify-center align-middle">
-                                <span>{skill.skillName}</span>
-                                {skill.genreName &&
-                                    <>
-                                        <span>~</span>
-                                        <span>{skill.genreName}</span>
-                                    </>
-                                }
+                    <div className="border-none p-0 flex flex-row flex-wrap gap-1">
+                        {userSkills.map((skill) => (
+                            <div key={skill.id} id="skill" className="flex justify-between border-none p-0">
+                                <div className="flex gap-1 justify-center align-middle">
+                                    <span>{skill.skillName}</span>
+                                    {skill.genreName &&
+                                        <>
+                                            <span>~</span>
+                                            <span>{skill.genreName}</span>
+                                        </>
+                                    }
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
             )}
             {birthdate && (

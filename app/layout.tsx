@@ -30,9 +30,9 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className="pb-12 pt-12">
-        <div id="logoContainer" className="fixed top-0 left-0 right-0 bg-white">
+        <div id="logoContainer" className="fixed flex items-center justify-center top-0 left-0 right-0 bg-white h-12">
           <Link href="/">
-            <h1 id="logo" className="flex justify-center items-center">Co<AudioWaveform size="30" />ab'</h1>
+            <h1 id="logo" className="flex items-center">Co<AudioWaveform size="30" />ab'</h1>
           </Link>
         </div>
         {children}

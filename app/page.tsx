@@ -1,9 +1,9 @@
-import { DisplayAllPosts } from "./components/Posts/DisplayAllPosts";
+import { DisplayMultiplePosts } from "./components/Posts/DisplayMultiplePosts";
 
 export default function Home() {
   return (
-    <main className="p-4">
-      <DisplayAllPosts />
+    <main className="p-2">
+        <DisplayMultiplePosts />
     </main>
   );
 }

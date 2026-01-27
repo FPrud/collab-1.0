@@ -240,14 +240,22 @@ export function CreatePost({ isAuthenticated, userId, onClose, onShowLogOptions 
     <div className="fixed top-12 left-0 right-0 bottom-12 bg-white z-20 p-4 overflow-y-auto">
       <div className="flex flex-col gap-2">
         <div className="border-none">
-          <h2>Titre de l&apos;annonce</h2>
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="Titre de votre annonce"
-            className="w-full p-2"
-          />
+          <div className="border-none">
+            <h2>Titre de l&apos;annonce</h2>
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => {
+                if (e.target.value.length <= 100) {
+                  setTitle(e.target.value);
+                }
+              }}
+              placeholder="Titre de votre annonce"
+              className="w-full p-2"
+              maxLength={100}
+            />
+            <span className="text-sm text-gray-500">{title.length}/100</span>
+          </div>
         </div>
 
         <div className="border-none">
