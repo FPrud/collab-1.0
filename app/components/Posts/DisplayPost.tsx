@@ -98,7 +98,7 @@ export function DisplayPost({
 
             {searchedSkills.length > 0 && (
                 <div className="border-none flex flex-col gap-1">
-                    <h2>Recherche</h2>
+                    <h2>Tags</h2>
                     <div className="border-none p-0 flex flex-row flex-wrap gap-1">
                         {searchedSkills.map((skill) => (
                             <button

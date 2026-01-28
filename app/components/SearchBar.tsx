@@ -44,7 +44,7 @@ export function SearchBar({ onSearch, externalSearchTerm }: SearchBarProps) {
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
           onKeyPress={handleKeyPress}
-          placeholder="Rechercher par compétence, genre ou mots-clés..."
+          placeholder="Rechercher une compétence ou un genre musical"
           className="flex-1"
         />
         <button onClick={handleSearch}>
