@@ -281,8 +281,8 @@ export function PostEditor({
 
   if (!isAuthenticated) {
     return (
-      <div className="fixed top-12 left-0 right-0 bottom-12 bg-white z-20 p-4 flex flex-col items-center justify-center gap-4">
-        <p>Vous devez vous connecter pour poster une annonce</p>
+      <div className="fixed h-screen left-0 right-0 bottom-12 bg-white z-20 p-4 flex flex-col items-center justify-center gap-4">
+        <p className="ml-10 mb-5 mr-10 text-center">Vous devez vous connecter pour poster une annonce</p>
         <button onClick={handleLoginClick} className="flex items-center gap-2">
           <User />
           Se connecter

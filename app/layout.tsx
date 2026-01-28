@@ -3,8 +3,6 @@ import "./globals.css";
 import { Navigation } from "./components/Navigation";
 import { auth } from "@/src/auth";
 import { headers } from "next/headers";
-import { AudioWaveform } from "lucide-react";
-import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Collab'",
@@ -29,12 +27,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className="pb-12">
-        <div id="logoContainer" className="flex items-center justify-center top-0 left-0 right-0 bg-white h-12 z-20">
-          <Link href="/?reset=true">
-            <h1 id="logo" className="flex items-center">Co<AudioWaveform size="30" />ab'</h1>
-          </Link>
-        </div>
+      <body className="flex flex-col justify-center align-middle items-center pb-12 border-none">
         <div id="main-content" className="border-none p-0">
           {children}
         </div>

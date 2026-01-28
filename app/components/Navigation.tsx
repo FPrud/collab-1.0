@@ -35,17 +35,17 @@ export const Navigation = ({ isAuthenticated, userId }: NavigationProps) => {
     const handleHomeClick = (e: React.MouseEvent) => {
         e.preventDefault();
         if (pathname === "/") {
-            // Si déjà sur la home, réinitialiser la recherche
+            // Si déjà sur la home, réinitialiser la recherche et scroller vers la SearchBar
             router.push("/?reset=true");
         } else {
-            // Sinon, navigation normale vers home
+            // Sinon, navigation normale vers home avec ancre
             router.push("/?reset=true");
         }
     };
 
     return (
         <>
-            <nav className="fixed bottom-0 right-0 left-0 z-10 h-12 bg-emerald-100">
+            <nav className="fixed bottom-0 right-0 left-0 z-10 h-12 bg-[#a8e6de]">
                 <div id="navigation-links" className="flex justify-around flex-wrap">
                     <button onClick={handleHomeClick} id="homeButton" className="squareButtons">
                         <AudioWaveform />

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { DisplayMultiplePosts } from "./components/Posts/DisplayMultiplePosts";
 import { SearchBar } from "./components/SearchBar";
+import { Logo } from "./components/Logo";
 
 export default function Home() {
   const searchParams = useSearchParams();
@@ -15,7 +16,7 @@ export default function Home() {
   useEffect(() => {
     const searchParam = searchParams.get("search");
     const reset = searchParams.get("reset");
-    
+
     if (reset === "true") {
       // Réinitialiser la recherche
       setSearchTerms([]);
@@ -39,14 +40,15 @@ export default function Home() {
 
   return (
     <main className="p-0">
-      <SearchBar 
+      <Logo />
+      <SearchBar
         key={resetKey}
-        onSearch={handleSearch} 
-        externalSearchTerm={externalSearchTerm} 
+        onSearch={handleSearch}
+        externalSearchTerm={externalSearchTerm}
       />
-      <div className="p-2">
-        <DisplayMultiplePosts 
-          searchTerms={searchTerms} 
+      <div className="p-2 border-none bg-[#ffffff88]">
+        <DisplayMultiplePosts
+          searchTerms={searchTerms}
           onSkillClick={handleSkillClick}
           isHomePage={true}
         />

@@ -63,7 +63,7 @@ export const LogOptions = ({ onClose }: LogOptionsProps) => {
     };
 
     return (
-        <div className="fixed top-12 left-0 right-0 bottom-12 bg-white z-20 p-4 flex flex-col justify-center">
+        <div className="fixed h-screen left-0 right-0 bottom-12 bg-white z-20 flex flex-col justify-center">
             <div id="logOptionsContainer" className="flex flex-col gap-2 m-5">
                 <button
                     onClick={toggleTab}

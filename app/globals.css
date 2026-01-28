@@ -1,26 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-}
-
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-} */
-
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: #a8e6de;
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -81,7 +63,7 @@ button {
 
 Link,
 a {
-  color: darkslategrey;
+  color: #262626;
   cursor: pointer;
 }
 

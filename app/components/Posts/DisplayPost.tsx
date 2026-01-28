@@ -84,16 +84,25 @@ export function DisplayPost({
     return (
         <>
             <div className="border-none">
-                <h2>{post.title}</h2>
-            </div>
-
-            <div className="flex border-none justify-between">
-                <span>{post.userName}</span>
-                <span>{formatDate(post.createdAt)}</span>
+                {showFullContent ? (
+                    <h2>{post.title}</h2>
+                ) : (
+                    <Link href={`/annonce/${post.id}`}>
+                        <h2>{post.title}</h2>
+                    </Link>
+                )}
             </div>
 
             <div className="border-none">
                 <p>{showFullContent ? post.content : truncateContent(post.content)}</p>
+            </div>
+
+
+            <div className="flex flex-col border-none text-end">
+                <Link href={`/profil/${post.userId}`}>
+                    <span>{post.userName}</span>
+                </Link>
+                <span>le {formatDate(post.createdAt)}</span>
             </div>
 
             {searchedSkills.length > 0 && (
