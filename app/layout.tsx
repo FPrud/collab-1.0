@@ -31,7 +31,7 @@ export default async function RootLayout({
     <html lang="en">
       <body className="pb-12">
         <div id="logoContainer" className="flex items-center justify-center top-0 left-0 right-0 bg-white h-12 z-20">
-          <Link href="/">
+          <Link href="/?reset=true">
             <h1 id="logo" className="flex items-center">Co<AudioWaveform size="30" />ab'</h1>
           </Link>
         </div>

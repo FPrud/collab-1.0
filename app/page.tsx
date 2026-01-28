@@ -1,21 +1,32 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { DisplayMultiplePosts } from "./components/Posts/DisplayMultiplePosts";
 import { SearchBar } from "./components/SearchBar";
 
 export default function Home() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const [searchTerms, setSearchTerms] = useState<string[]>([]);
   const [externalSearchTerm, setExternalSearchTerm] = useState<string>("");
+  const [resetKey, setResetKey] = useState(0);
 
   useEffect(() => {
     const searchParam = searchParams.get("search");
-    if (searchParam) {
+    const reset = searchParams.get("reset");
+    
+    if (reset === "true") {
+      // Réinitialiser la recherche
+      setSearchTerms([]);
+      setExternalSearchTerm("");
+      setResetKey(prev => prev + 1);
+      // Nettoyer l'URL
+      router.replace("/", { scroll: false });
+    } else if (searchParam) {
       setExternalSearchTerm(searchParam);
     }
-  }, [searchParams]);
+  }, [searchParams, router]);
 
   const handleSearch = (terms: string[]) => {
     setSearchTerms(terms);
@@ -28,7 +39,11 @@ export default function Home() {
 
   return (
     <main className="p-0">
-      <SearchBar onSearch={handleSearch} externalSearchTerm={externalSearchTerm} />
+      <SearchBar 
+        key={resetKey}
+        onSearch={handleSearch} 
+        externalSearchTerm={externalSearchTerm} 
+      />
       <div className="p-2">
         <DisplayMultiplePosts 
           searchTerms={searchTerms} 

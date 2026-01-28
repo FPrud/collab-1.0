@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { useRouter, usePathname } from "next/navigation";
 import { LogOptions } from "./Connection/LogOptions";
 import { PostEditor } from "./Posts/PostEditor";
 import { AudioWaveform, Plus, User, X } from "lucide-react";
@@ -14,6 +15,8 @@ interface NavigationProps {
 export const Navigation = ({ isAuthenticated, userId }: NavigationProps) => {
     const [showLogOptions, setShowLogOptions] = useState(false);
     const [showPostEditor, setShowPostEditor] = useState(false);
+    const router = useRouter();
+    const pathname = usePathname();
 
     useEffect(() => {
         console.log("Navigation - isAuthenticated:", isAuthenticated);
@@ -29,15 +32,24 @@ export const Navigation = ({ isAuthenticated, userId }: NavigationProps) => {
         setShowLogOptions(false);
     };
 
+    const handleHomeClick = (e: React.MouseEvent) => {
+        e.preventDefault();
+        if (pathname === "/") {
+            // Si déjà sur la home, réinitialiser la recherche
+            router.push("/?reset=true");
+        } else {
+            // Sinon, navigation normale vers home
+            router.push("/?reset=true");
+        }
+    };
+
     return (
         <>
             <nav className="fixed bottom-0 right-0 left-0 z-10 h-12 bg-emerald-100">
                 <div id="navigation-links" className="flex justify-around flex-wrap">
-                    <Link href="/" id="homeButton">
-                        <div className="squareButtons">
-                            <AudioWaveform />
-                        </div>
-                    </Link>
+                    <button onClick={handleHomeClick} id="homeButton" className="squareButtons">
+                        <AudioWaveform />
+                    </button>
                     {isAuthenticated ? (
                         <>
                             <button onClick={handleShowPostEditor} className="squareButtons">
@@ -74,7 +86,6 @@ export const Navigation = ({ isAuthenticated, userId }: NavigationProps) => {
     );
 };
 
-// Ajoutez cette fonction exportée pour vérifier si un overlay est actif
 export const useNavigationState = () => {
     return { showLogOptions: false, showPostEditor: false };
 };
