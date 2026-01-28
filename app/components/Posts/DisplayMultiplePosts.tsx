@@ -4,7 +4,6 @@ import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { getAllPosts } from "@/app/actions/posts/getAllPosts";
 import { getUserPosts } from "@/app/actions/posts/getUserPosts";
-import { getFilteredPosts } from "@/app/actions/posts/getFilteredPosts";
 import { getPostSkills } from "@/app/actions/skills/getPostSkills";
 import { DisplayPost } from "./DisplayPost";
 
@@ -54,12 +53,11 @@ export function DisplayMultiplePosts({ userId, searchTerms }: DisplayManyPostsPr
     setLoading(true);
     
     let result;
-    if (searchTerms && searchTerms.length > 0) {
-      result = await getFilteredPosts(searchTerms, currentOffset);
-    } else if (userId) {
+    if (userId) {
       result = await getUserPosts(userId, currentOffset);
     } else {
-      result = await getAllPosts(currentOffset);
+      // Passer searchTerms à getAllPosts (tableau vide par défaut)
+      result = await getAllPosts(currentOffset, 20, searchTerms || []);
     }
 
     if ("error" in result) {

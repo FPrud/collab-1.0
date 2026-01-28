@@ -25,7 +25,7 @@ export function SearchBar({ onSearch }: SearchBarProps) {
   };
 
   return (
-    <div className="sticky top-12 bg-white z-10 p-2">
+    <div className="sticky top-0 bg-white z-10 p-2">
       <div className="flex gap-2">
         <input
           type="text"

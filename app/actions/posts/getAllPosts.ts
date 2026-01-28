@@ -2,10 +2,24 @@
 
 import { db } from "@/src/db";
 import { posts, user, profiles } from "@/src/schema";
-import { eq, desc } from "drizzle-orm";
+import { eq, desc, and, or, ilike } from "drizzle-orm";
 
-export async function getAllPosts(offset: number = 0, limit: number = 20) {
+export async function getAllPosts(offset: number = 0, limit: number = 20, searchTerms: string[] = []) {
   try {
+    const conditions = [eq(posts.postActiveStatus, true)];
+
+    // Ajouter les conditions de recherche si des termes sont fournis
+    if (searchTerms.length > 0) {
+      const searchConditions = searchTerms.flatMap(term => [
+        ilike(posts.title, `%${term}%`),
+        ilike(posts.content, `%${term}%`)
+      ]);
+      
+      if (searchConditions.length > 0) {
+        conditions.push(or(...searchConditions)!);
+      }
+    }
+
     const allPosts = await db
       .select({
         id: posts.id,
@@ -19,7 +33,7 @@ export async function getAllPosts(offset: number = 0, limit: number = 20) {
       .from(posts)
       .leftJoin(user, eq(posts.userId, user.id))
       .leftJoin(profiles, eq(posts.userId, profiles.userId))
-      .where(eq(posts.postActiveStatus, true))
+      .where(and(...conditions))
       .orderBy(desc(posts.createdAt), desc(posts.id))
       .limit(limit)
       .offset(offset);
