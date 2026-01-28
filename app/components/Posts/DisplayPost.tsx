@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Pencil, Trash2 } from "lucide-react";
 
 interface Post {
@@ -26,16 +27,22 @@ interface DisplayPostProps {
     isAuthor?: boolean;
     onEdit?: () => void;
     onDelete?: () => void;
+    onSkillClick?: (skillName: string) => void;
+    isHomePage?: boolean;
 }
 
-export function DisplayPost({ 
-    post, 
-    searchedSkills, 
+export function DisplayPost({
+    post,
+    searchedSkills,
     showFullContent = true,
     isAuthor = false,
     onEdit,
-    onDelete
+    onDelete,
+    onSkillClick,
+    isHomePage = false
 }: DisplayPostProps) {
+    const router = useRouter();
+
     const formatDate = (date: Date) => {
         return new Intl.DateTimeFormat("fr-FR", {
             day: "numeric",
@@ -60,6 +67,20 @@ export function DisplayPost({
         return contactLink.startsWith("http") ? contactLink : `https://${contactLink}`;
     };
 
+    const handleSkillClick = (skillName: string | null, genreName: string | null) => {
+        if (skillName) {
+            const searchTerm = genreName ? `${skillName} ${genreName}` : skillName;
+
+            if (isHomePage && onSkillClick) {
+                // Si on est sur la HomePage, utiliser le callback
+                onSkillClick(searchTerm);
+            } else {
+                // Sinon, rediriger vers la HomePage avec le terme de recherche
+                router.push(`/?search=${encodeURIComponent(searchTerm)}`);
+            }
+        }
+    };
+
     return (
         <>
             <div className="border-none">
@@ -80,17 +101,19 @@ export function DisplayPost({
                     <h2>Recherche</h2>
                     <div className="border-none p-0 flex flex-row flex-wrap gap-1">
                         {searchedSkills.map((skill) => (
-                            <div key={skill.id} className="flex justify-between border-none p-0">
-                                <div className="flex gap-1 justify-center align-middle">
-                                    <span>{skill.skillName}</span>
-                                    {skill.genreName && (
-                                        <>
-                                            <span>~</span>
-                                            <span>{skill.genreName}</span>
-                                        </>
-                                    )}
-                                </div>
-                            </div>
+                            <button
+                                key={skill.id}
+                                onClick={() => handleSkillClick(skill.skillName, skill.genreName)}
+                                className="p-1 flex gap-1"
+                            >
+                                <span>{skill.skillName}</span>
+                                {skill.genreName && (
+                                    <>
+                                        <span>~</span>
+                                        <span>{skill.genreName}</span>
+                                    </>
+                                )}
+                            </button>
                         ))}
                     </div>
                 </div>

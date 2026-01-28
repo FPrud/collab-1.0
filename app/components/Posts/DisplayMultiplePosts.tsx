@@ -28,9 +28,11 @@ interface SearchedSkill {
 interface DisplayManyPostsProps {
   userId?: string;
   searchTerms?: string[];
+  onSkillClick?: (skillName: string) => void;
+  isHomePage?: boolean;
 }
 
-export function DisplayMultiplePosts({ userId, searchTerms }: DisplayManyPostsProps) {
+export function DisplayMultiplePosts({ userId, searchTerms, onSkillClick, isHomePage = false }: DisplayManyPostsProps) {
   const [posts, setPosts] = useState<Post[]>([]);
   const [postSkills, setPostSkills] = useState<Record<number, SearchedSkill[]>>({});
   const [offset, setOffset] = useState(0);
@@ -56,7 +58,6 @@ export function DisplayMultiplePosts({ userId, searchTerms }: DisplayManyPostsPr
     if (userId) {
       result = await getUserPosts(userId, currentOffset);
     } else {
-      // Passer searchTerms à getAllPosts (tableau vide par défaut)
       result = await getAllPosts(currentOffset, 20, searchTerms || []);
     }
 
@@ -121,6 +122,8 @@ export function DisplayMultiplePosts({ userId, searchTerms }: DisplayManyPostsPr
             post={post}
             searchedSkills={postSkills[post.id] || []}
             showFullContent={false}
+            onSkillClick={onSkillClick}
+            isHomePage={isHomePage}
           />
           <div className="border-none p-0 flex justify-center mt-2">
             <Link href={`/annonce/${post.id}`}>

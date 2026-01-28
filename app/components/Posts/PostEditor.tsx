@@ -38,6 +38,7 @@ interface SearchedSkill {
   skillName: string | null;
   genreId: number | null;
   genreName: string | null;
+  isNew?: boolean; // Ajout d'un flag pour identifier les nouveaux tags
 }
 
 interface Skill {
@@ -197,6 +198,7 @@ export function PostEditor({
         skillName: skillName,
         genreId: genreId,
         genreName: genreName,
+        isNew: true, // Marquer comme nouveau
       }
     ]);
 
@@ -212,8 +214,8 @@ export function PostEditor({
   const handleDeleteSkill = async (index: number) => {
     const skill = searchedSkills[index];
 
-    // Si le skill existe en DB (id < Date.now()), marquer pour suppression
-    if (existingPost && skill.id < Date.now()) {
+    // Si le skill existe en DB (pas marqué comme nouveau), marquer pour suppression
+    if (existingPost && !skill.isNew) {
       setSkillsToDelete([...skillsToDelete, skill.id]);
     }
 
@@ -243,6 +245,13 @@ export function PostEditor({
       for (const skillId of skillsToDelete) {
         await deleteSearchedSkill(skillId);
       }
+
+      // Ajouter uniquement les nouveaux tags
+      for (const skill of searchedSkills) {
+        if (skill.isNew) {
+          await addPostSkill(postId, skill.skillId, skill.genreId);
+        }
+      }
     } else {
       // Mode création
       const postResult = await createPost(userId, title, content);
@@ -251,11 +260,9 @@ export function PostEditor({
         return;
       }
       postId = postResult.post!.id;
-    }
 
-    // Ajouter les nouveaux tags (ceux avec id temporaire)
-    for (const skill of searchedSkills) {
-      if (skill.id >= Date.now() || !isEditMode) {
+      // Ajouter tous les tags
+      for (const skill of searchedSkills) {
         await addPostSkill(postId, skill.skillId, skill.genreId);
       }
     }

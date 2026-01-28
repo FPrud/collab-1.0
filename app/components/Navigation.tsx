@@ -33,7 +33,7 @@ export const Navigation = ({ isAuthenticated, userId }: NavigationProps) => {
         <>
             <nav className="fixed bottom-0 right-0 left-0 z-10 h-12 bg-emerald-100">
                 <div id="navigation-links" className="flex justify-around flex-wrap">
-                    <Link href="/">
+                    <Link href="/" id="homeButton">
                         <div className="squareButtons">
                             <AudioWaveform />
                         </div>

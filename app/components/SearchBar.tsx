@@ -1,14 +1,26 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Search } from "lucide-react";
 
 interface SearchBarProps {
   onSearch: (searchTerms: string[]) => void;
+  externalSearchTerm?: string;
 }
 
-export function SearchBar({ onSearch }: SearchBarProps) {
+export function SearchBar({ onSearch, externalSearchTerm }: SearchBarProps) {
   const [searchInput, setSearchInput] = useState("");
+
+  useEffect(() => {
+    if (externalSearchTerm) {
+      setSearchInput(externalSearchTerm);
+      const terms = externalSearchTerm
+        .trim()
+        .split(/\s+/)
+        .filter(term => term.length > 0);
+      onSearch(terms);
+    }
+  }, [externalSearchTerm]);
 
   const handleSearch = () => {
     const terms = searchInput
