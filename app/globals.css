@@ -124,10 +124,9 @@ nav {
 #logo {
   font-family: "Rubik", sans-serif;
   font-optical-sizing: auto;
-  font-weight: 550;
+  font-weight: 525;
   font-style: normal;
   color: var(--color-accent);
-  font-weight: 700;
   font-size: 2rem;
   letter-spacing: 0.05em;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);

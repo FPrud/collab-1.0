@@ -104,14 +104,13 @@ export function DisplayPost({
                 </Link>
                 <span>le {formatDate(post.createdAt)}</span>
             </div>
-
             {searchedSkills.length > 0 && (
                 <div className="border-none flex flex-col gap-1">
-                    <h2>Tags</h2>
                     <div className="border-none p-0 flex flex-row flex-wrap gap-1">
                         {searchedSkills.map((skill) => (
                             <button
                                 key={skill.id}
+                                id="skill"
                                 onClick={() => handleSkillClick(skill.skillName, skill.genreName)}
                             >
                                 <span>{skill.skillName}</span>
@@ -128,7 +127,7 @@ export function DisplayPost({
             )}
 
             {showFullContent && (
-                <>
+                <div className="pt-6">
                     {isAuthor ? (
                         <div className="border-none p-0 flex justify-evenly">
                             <button onClick={onEdit} className="squareButtons">
@@ -155,7 +154,7 @@ export function DisplayPost({
                             )}
                         </div>
                     )}
-                </>
+                </div>
             )}
         </>
     );

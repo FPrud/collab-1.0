@@ -125,7 +125,7 @@ export function DisplayMultiplePosts({ userId, searchTerms, onSkillClick, isHome
             onSkillClick={onSkillClick}
             isHomePage={isHomePage}
           />
-          <div className="border-none p-0 flex justify-center mt-2">
+          <div className="border-none p-0 flex justify-center mt-6">
             <Link href={`/annonce/${post.id}`}>
               <button>Voir l'annonce</button>
             </Link>
