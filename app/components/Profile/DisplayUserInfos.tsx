@@ -85,8 +85,8 @@ export function DisplayUserInfos({
                     <h2>Compétences musicales</h2>
                     <div className="border-none p-0 flex flex-row flex-wrap gap-1">
                         {userSkills.map((skill) => (
-                            <div key={skill.id} id="skill" className="flex justify-between border-none p-0">
-                                <div className="flex gap-1 justify-center align-middle">
+                            <div key={skill.id} id="skill" className="flex border-none p-0 items-center">
+                                <div className="flex gap-1 items-center">
                                     <span>{skill.skillName}</span>
                                     {skill.genreName &&
                                         <>

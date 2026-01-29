@@ -127,7 +127,7 @@ export function DisplayMultiplePosts({ userId, searchTerms, onSkillClick, isHome
           />
           <div className="border-none p-0 flex justify-center mt-2">
             <Link href={`/annonce/${post.id}`}>
-              <button className="mb-2" >Voir l'annonce</button>
+              <button>Voir l'annonce</button>
             </Link>
           </div>
         </div>

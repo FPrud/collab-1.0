@@ -1,91 +1,259 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
 @import "tailwindcss";
 
-body {
-  background: #a8e6de;
-  font-family: Arial, Helvetica, sans-serif;
+:root {
+  /* Palette inspirée du matériel musical vintage */
+  --color-primary: #1a1a1a;        /* Noir profond - amplis vintage */
+  --color-secondary: #8b7355;      /* Cuir vieilli - housses d'instruments */
+  --color-accent: #d4a574;         /* Laiton patiné - cuivres */
+  --color-background: #f5ebe0;     /* Toile beige - intérieur de case */
+  --color-background-alt: #e8ddd0; /* Toile beige foncé - variante */
+  --color-surface: #ffffff;        /* Blanc pur - surface propre */
+  --color-surface-dark: #2d2d2d;   /* Surface sombre - variante */
+  --color-border: #4a4a4a;         /* Gris métal - hardware */
+  --color-text: #2d2d2d;           /* Charbon - texte principal */
+  --color-text-muted: #6b6b6b;     /* Gris - texte secondaire */
+  --color-hover: #a67c52;          /* Cuivre oxydé - hover */
+  --color-shadow: rgba(0,0,0,0.1); /* Ombre subtile */
+  --color-section-bg: rgba(245, 235, 224, 0.5); /* Fond des sections */
+  --color-section-border: rgba(74, 74, 74, 0.2); /* Bordure des sections */
 }
 
+body {
+  background: linear-gradient(135deg, var(--color-background) 0%, var(--color-background-alt) 100%);
+  color: var(--color-text);
+  font-family: 'Rubik', Arial, Helvetica, sans-serif;
+}
+
+/* Inputs et textareas */
 input,
 textarea,
-button,
-div,
-Link,
 select {
-  border: black;
-  border-width: 1px;
-  border-style: solid;
-  border-radius: 5px;
-  padding: 5px;
+  background-color: var(--color-surface);
+  border: 2px solid var(--color-border);
+  color: var(--color-text);
+  border-radius: 4px;
+  padding: 0.75rem;
+  transition: all 0.2s ease;
 }
 
-main{
-  border: none;
-  padding: 5px;
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(212, 165, 116, 0.1);
 }
 
-.border-none {
-  border: none
+input::placeholder,
+textarea::placeholder {
+  color: var(--color-text-muted);
 }
 
-.p-0 {
-  padding: 0;
-}
-
-#navigation-links {
-  border-radius: 5px 5px 0 0;
-}
-
-
-input,
+/* Boutons standards et squareButtons */
 button,
-Link {
-  text-align: center;
-  justify-content: center;
-}
-
-input,
-textarea {
-  background-color: #ffddff;
-}
-
-button {
-  background-color: #ddffff;
-  cursor: pointer;
-}
-
 .squareButtons {
-  height: calc(var(--spacing) * 9);
-  width: calc(var(--spacing) * 9);
-  justify-content: center;
-  align-items: center;
-}
-
-Link,
-a {
-  color: #262626;
+  background-color: var(--color-secondary);
+  color: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: 6px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px var(--color-shadow);
   cursor: pointer;
 }
 
+button:hover:not(:disabled),
+.squareButtons:hover:not(:disabled) {
+  background-color: var(--color-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px var(--color-shadow);
+}
+
+button:active:not(:disabled),
+.squareButtons:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px var(--color-shadow);
+}
+
+button:disabled,
+.squareButtons:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* SquareButtons spécifiques */
+.squareButtons {
+  padding: 0.75rem;
+  min-width: 3rem;
+  min-height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Navigation */
+nav {
+  background-color: var(--color-primary);
+  border-top: 3px solid var(--color-accent);
+  box-shadow: 0 -4px 12px var(--color-shadow);
+}
+
+#navigation-links .squareButtons {
+  background-color: transparent;
+  border: none;
+  color: var(--color-accent);
+  box-shadow: none;
+}
+
+#navigation-links .squareButtons:hover {
+  background-color: rgba(212, 165, 116, 0.1);
+  color: var(--color-surface);
+  transform: scale(1.05);
+}
+
+/* Logo */
 #logoContainer {
-  border-radius: 0 0 5px 5px;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-surface-dark) 100%);
+  padding: 1.5rem;
+  border-bottom: 3px solid var(--color-accent);
+  box-shadow: 0 4px 12px var(--color-shadow);
 }
 
 #logo {
   font-family: "Rubik", sans-serif;
   font-optical-sizing: auto;
-  font-weight: 525;
-  /*font-weight: 300 - 900*/
+  font-weight: 550;
   font-style: normal;
-  font-size: xx-large;
+  color: var(--color-accent);
+  font-weight: 700;
+  font-size: 2rem;
+  letter-spacing: 0.05em;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
+/* SearchBar */
+#searchbar {
+  background-color: var(--color-surface);
+  border-bottom: 2px solid var(--color-border);
+  box-shadow: 0 2px 8px var(--color-shadow);
+}
+
+#searchbar input {
+  border: none;
+  background-color: transparent;
+}
+
+#searchbar button {
+  background-color: var(--color-accent);
+  border-radius: 4px;
+  padding: 0.5rem;
+  min-width: 2.5rem;
+  min-height: 2.5rem;
+}
+
+#searchbar button:hover {
+  background-color: var(--color-hover);
+}
+
+/* Cards (Posts, Profils) */
+#userCard,
+#editUserCard,
+#logOptionsContainer,
+#postEditorContainer,
+[id*="Post"]>div:not(.border-none) {
+  background-color: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px var(--color-shadow);
+  padding: 1.5rem;
+}
+
+/* Sections à l'intérieur des cards */
+div[id*="user"]>div:not(.border-none),
+div[id*="edit"]>div:not(.border-none),
+div[id*="Post"] div:not(.border-none) {
+  background-color: var(--color-section-bg);
+  border: 1px solid var(--color-section-border);
+  border-radius: 6px;
+  padding: 1rem;
+}
+
+/* Titres */
 h1 {
-  font-size: x-large;
-  font-weight: bold
+  color: var(--color-primary);
+  font-size: 2rem;
+  font-weight: 700;
 }
 
 h2 {
-  font-size: large;
-  font-weight: bold
+  color: var(--color-secondary);
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+/* Liens */
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--color-hover);
+  text-decoration: underline;
+}
+
+/* Skills/Tags */
+#skill,
+button[class*="skill"],
+div[id*="Skills"] button {
+  background-color: var(--color-accent);
+  color: var(--color-primary);
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+#skill:hover,
+button[class*="skill"]:hover,
+div[id*="Skills"] button:hover {
+  background-color: var(--color-hover);
+  color: var(--color-surface);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px var(--color-shadow);
+}
+
+/* Overlays (LogOptions, PostEditor) - Même fond que la page d'accueil */
+.overlay-container {
+  background: linear-gradient(135deg, var(--color-background) 0%, var(--color-background-alt) 100%);
+}
+
+/* Main content container */
+#main-content {
+  max-width: 600px;
+  width: 100%;
+}
+
+/* Scrollbar personnalisée */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-secondary);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-hover);
 }

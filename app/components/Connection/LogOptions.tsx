@@ -63,11 +63,11 @@ export const LogOptions = ({ onClose }: LogOptionsProps) => {
     };
 
     return (
-        <div className="fixed h-screen left-0 right-0 bottom-12 bg-white z-20 flex flex-col justify-center">
-            <div id="logOptionsContainer" className="flex flex-col gap-2 m-5">
+        <div className="fixed top-0 left-0 right-0 bottom-12 z-20 flex flex-col justify-center p-4 overlay-container">
+            <div id="logOptionsContainer" className="flex flex-col gap-2">
                 <button
                     onClick={toggleTab}
-                    className="flex items-center gap-2"
+                    className="flex items-center justify-center gap-2"
                 >
                     {activeTab === "login" ? (
                         <>
@@ -84,14 +84,14 @@ export const LogOptions = ({ onClose }: LogOptionsProps) => {
                 {activeTab === "login" ? (
                     <form onSubmit={handleLoginSubmit} className="flex flex-col gap-2">
                         <label htmlFor="email" hidden>E-mail</label>
-                        <input name="email" type="email" placeholder="E-mail" required className="text-center"/>
+                        <input name="email" type="email" placeholder="E-mail" required />
                         <label htmlFor="password" hidden>Mot de passe</label>
                         <input name="password" type="password" placeholder="Mot de passe" required />
-                        {error && <p>{error}</p>}
+                        {error && <p className="text-red-600">{error}</p>}
                         <button
                             type="submit"
                             disabled={isLoading}
-                            className="flex items-center gap-2">
+                            className="flex items-center justify-center gap-2">
                             {isLoading ? "Connexion en cours..." : (
                                 <>
                                     <LogIn />
@@ -108,11 +108,11 @@ export const LogOptions = ({ onClose }: LogOptionsProps) => {
                         <input name="email" type="email" placeholder="E-mail" required />
                         <label htmlFor="password" hidden>Mot de passe</label>
                         <input name="password" type="password" placeholder="Mot de passe" required />
-                        {error && <p>{error}</p>}
+                        {error && <p className="text-red-600">{error}</p>}
                         <button
                             type="submit"
                             disabled={isLoading}
-                            className="flex items-center gap-2">
+                            className="flex items-center justify-center gap-2">
                             {isLoading ? "Inscription en cours..." : (
                                 <>
                                     <LogIn />

@@ -37,7 +37,7 @@ export function SearchBar({ onSearch, externalSearchTerm }: SearchBarProps) {
   };
 
   return (
-    <div id="searchbar" className="sticky top-0 z-10 flex gap-1 mt-1 border-t border-b bg-[#a8e6de]">
+    <div id="searchbar" className="sticky top-0 z-10 flex gap-1 p-2">
         <input
           type="text"
           value={searchInput}

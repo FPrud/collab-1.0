@@ -45,8 +45,8 @@ export const Navigation = ({ isAuthenticated, userId }: NavigationProps) => {
 
     return (
         <>
-            <nav className="fixed bottom-0 right-0 left-0 z-10 h-12 bg-[#a8e6de]">
-                <div id="navigation-links" className="flex justify-around flex-wrap">
+            <nav className="fixed bottom-0 right-0 left-0 z-10 h-12">
+                <div id="navigation-links" className="flex justify-around h-full items-center">
                     <button onClick={handleHomeClick} id="homeButton" className="squareButtons">
                         <AudioWaveform />
                     </button>

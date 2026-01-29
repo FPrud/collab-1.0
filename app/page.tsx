@@ -18,11 +18,9 @@ export default function Home() {
     const reset = searchParams.get("reset");
 
     if (reset === "true") {
-      // Réinitialiser la recherche
       setSearchTerms([]);
       setExternalSearchTerm("");
       setResetKey(prev => prev + 1);
-      // Nettoyer l'URL
       router.replace("/", { scroll: false });
     } else if (searchParam) {
       setExternalSearchTerm(searchParam);
@@ -46,7 +44,7 @@ export default function Home() {
         onSearch={handleSearch}
         externalSearchTerm={externalSearchTerm}
       />
-      <div className="p-2 border-none bg-[#ffffff88]">
+      <div className="p-2 border-none">
         <DisplayMultiplePosts
           searchTerms={searchTerms}
           onSkillClick={handleSkillClick}

@@ -21,15 +21,15 @@ export default async function ProfilePage({ params }: { params: Promise<{ id: st
     const isOwnProfile = currentUserId === userId;
 
     return (
-        <main className="flex flex-col p-2">
+        <main className="flex flex-col p-2 gap-4">
             <ProfileManager
                 userId={userId}
                 profileData={profileData}
                 isOwnProfile={isOwnProfile}
             />
             
-            <section className="mt-6">
-                <h2 className="text-xl font-semibold mb-4">Annonces de {profileData.name}</h2>
+            <section>
+                <h2>Annonces de {profileData.name}</h2>
                 <DisplayMultiplePosts userId={userId} />
             </section>
         </main>

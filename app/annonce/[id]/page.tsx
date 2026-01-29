@@ -32,7 +32,7 @@ export default async function PostPage({ params }: { params: Promise<{ id: strin
   const isAuthor = currentUserId === post.userId;
 
   return (
-    <main id="" className="p-2">
+    <main className="p-2">
       <PostManager
         post={post}
         searchedSkills={searchedSkills}

@@ -38,7 +38,7 @@ interface SearchedSkill {
   skillName: string | null;
   genreId: number | null;
   genreName: string | null;
-  isNew?: boolean; // Ajout d'un flag pour identifier les nouveaux tags
+  isNew?: boolean;
 }
 
 interface Skill {
@@ -198,7 +198,7 @@ export function PostEditor({
         skillName: skillName,
         genreId: genreId,
         genreName: genreName,
-        isNew: true, // Marquer comme nouveau
+        isNew: true,
       }
     ]);
 
@@ -214,7 +214,6 @@ export function PostEditor({
   const handleDeleteSkill = async (index: number) => {
     const skill = searchedSkills[index];
 
-    // Si le skill existe en DB (pas marqué comme nouveau), marquer pour suppression
     if (existingPost && !skill.isNew) {
       setSkillsToDelete([...skillsToDelete, skill.id]);
     }
@@ -233,7 +232,6 @@ export function PostEditor({
     let postId: number;
 
     if (isEditMode) {
-      // Mode édition
       const editResult = await editPost(existingPost.id, title, content);
       if ("error" in editResult) {
         alert(editResult.error);
@@ -241,19 +239,16 @@ export function PostEditor({
       }
       postId = existingPost.id;
 
-      // Supprimer les skills marqués pour suppression
       for (const skillId of skillsToDelete) {
         await deleteSearchedSkill(skillId);
       }
 
-      // Ajouter uniquement les nouveaux tags
       for (const skill of searchedSkills) {
         if (skill.isNew) {
           await addPostSkill(postId, skill.skillId, skill.genreId);
         }
       }
     } else {
-      // Mode création
       const postResult = await createPost(userId, title, content);
       if ("error" in postResult) {
         alert(postResult.error);
@@ -261,7 +256,6 @@ export function PostEditor({
       }
       postId = postResult.post!.id;
 
-      // Ajouter tous les tags
       for (const skill of searchedSkills) {
         await addPostSkill(postId, skill.skillId, skill.genreId);
       }
@@ -281,19 +275,21 @@ export function PostEditor({
 
   if (!isAuthenticated) {
     return (
-      <div className="fixed h-screen left-0 right-0 bottom-12 bg-white z-20 p-4 flex flex-col items-center justify-center gap-4">
-        <p className="ml-10 mb-5 mr-10 text-center">Vous devez vous connecter pour poster une annonce</p>
-        <button onClick={handleLoginClick} className="flex items-center gap-2">
-          <User />
-          Se connecter
-        </button>
+      <div className="fixed top-0 left-0 right-0 bottom-12 z-20 p-4 flex flex-col items-center justify-center gap-4 overlay-container">
+        <div id="postEditorContainer">
+          <p className="text-center mb-4">Vous devez vous connecter pour poster une annonce</p>
+          <button onClick={handleLoginClick} className="flex items-center gap-2 w-full justify-center">
+            <User />
+            Se connecter
+          </button>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className={existingPost ? "" : "fixed top-12 left-0 right-0 bottom-12 bg-white z-20 p-4 overflow-y-auto"}>
-      <div className="flex flex-col gap-2">
+    <div className={existingPost ? "" : "fixed top-0 left-0 right-0 bottom-12 z-20 p-4 overflow-y-auto overlay-container"}>
+      <div id="postEditorContainer" className="flex flex-col gap-2">
         <div className="border-none">
           <div className="border-none">
             <h2>Titre de l&apos;annonce</h2>
@@ -306,10 +302,10 @@ export function PostEditor({
                 }
               }}
               placeholder="Titre de votre annonce"
-              className="w-full p-2"
+              className="w-full"
               maxLength={100}
             />
-            <span className="text-sm text-gray-500">{title.length}/100</span>
+            <span>{title.length}/100</span>
           </div>
         </div>
 
@@ -320,15 +316,15 @@ export function PostEditor({
             onChange={(e) => setContent(e.target.value)}
             placeholder="Décrivez votre recherche de collaboration..."
             rows={6}
-            className="w-full p-2"
+            className="w-full"
           />
         </div>
 
         <div className="border-none flex flex-col gap-1">
           <h2>Vous recherchez ({searchedSkills.length}/5)</h2>
           {searchedSkills.map((skill, index) => (
-            <div key={skill.id} className="flex justify-between border-none p-0">
-              <div className="flex gap-1 justify-center align-middle">
+            <div key={skill.id} className="flex justify-between border-none p-0 items-center">
+              <div className="flex gap-1 items-center">
                 <span>{skill.skillName}</span>
                 {skill.genreName && (
                   <>
@@ -348,7 +344,7 @@ export function PostEditor({
           {showAddSkill ? (
             <div className="flex flex-col gap-1">
               <select
-                className="w-full p-2"
+                className="w-full"
                 value={selectedSkillId || ""}
                 onChange={handleSkillSelectChange}
               >
@@ -370,7 +366,7 @@ export function PostEditor({
                 />
               )}
               <select
-                className="w-full p-2"
+                className="w-full"
                 value={selectedGenreId || "none"}
                 onChange={handleGenreSelectChange}
                 disabled={!selectedSkillId && !showCustomSkillInput}
@@ -386,7 +382,7 @@ export function PostEditor({
               {showCustomGenreInput && (
                 <input
                   type="text"
-                  className="w-full p-2"
+                  className="w-full"
                   placeholder="Nom du genre"
                   value={customGenreName}
                   onChange={handleCustomGenreInput}

@@ -236,7 +236,6 @@ export function EditUserInfos({
                         value={formData.name}
                         onChange={handleChange}
                         placeholder="Nom"
-                        className="text-2xl font-bold text-center"
                     />
                 </div>
                 <div id="editUserBio" className="border-none">
@@ -247,14 +246,14 @@ export function EditUserInfos({
                         onChange={handleChange}
                         placeholder="Description de votre parcours, et de votre projet musical. Qu'est-ce qui fait de vous un.e musicien.ne unique ?"
                         rows={4}
-                        className="w-full p-2"
+                        className="w-full"
                     />
                 </div>
                 <div id="editUserSkills" className="border-none flex flex-col gap-1">
                     <h2>Compétences musicales ({userSkills.length}/50)</h2>
                     {userSkills.map((skill) => (
-                        <div key={skill.id} id="skill" className="flex justify-between border-none p-0">
-                            <div className="flex gap-1 justify-center align-middle">
+                        <div key={skill.id} id="skill" className="flex justify-between border-none p-0 items-center">
+                            <div className="flex gap-1 items-center">
                                 <span>{skill.skillName}</span>
                                 {skill.genreName &&
                                     <>
@@ -274,7 +273,7 @@ export function EditUserInfos({
                     {showAddSkill ? (
                         <div className="flex flex-col gap-1">
                             <select
-                                className="w-full p-2"
+                                className="w-full"
                                 value={selectedSkillId || ""}
                                 onChange={handleSkillSelectChange}
                             >
@@ -296,7 +295,7 @@ export function EditUserInfos({
                                 />
                             )}
                             <select
-                                className="w-full p-2"
+                                className="w-full"
                                 value={selectedGenreId || "none"}
                                 onChange={handleGenreSelectChange}
                                 disabled={!selectedSkillId && !showCustomSkillInput}
@@ -312,7 +311,7 @@ export function EditUserInfos({
                             {showCustomGenreInput && (
                                 <input
                                     type="text"
-                                    className="w-full p-2"
+                                    className="w-full"
                                     placeholder="Nom du genre"
                                     value={customGenreName}
                                     onChange={handleCustomGenreInput}
@@ -358,7 +357,6 @@ export function EditUserInfos({
                         name="birthdate"
                         value={formData.birthdate}
                         onChange={handleChange}
-                        className="p-2"
                     />
                 </div>
                 <div id="editUserAddress" className="border-none">
@@ -369,7 +367,7 @@ export function EditUserInfos({
                         value={formData.address}
                         onChange={handleChange}
                         placeholder="Votre adresse"
-                        className="w-full p-2"
+                        className="w-full"
                     />
                 </div>
                 <div id="editUserContact" className="border-none">
@@ -380,7 +378,7 @@ export function EditUserInfos({
                         value={formData.contactLink}
                         onChange={handleChange}
                         placeholder="https://..."
-                        className="w-full p-2"
+                        className="w-full"
                     />
                 </div>
                 <div className="border-none p-0 flex justify-evenly">

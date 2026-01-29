@@ -113,7 +113,6 @@ export function DisplayPost({
                             <button
                                 key={skill.id}
                                 onClick={() => handleSkillClick(skill.skillName, skill.genreName)}
-                                className="p-1 flex gap-1"
                             >
                                 <span>{skill.skillName}</span>
                                 {skill.genreName && (
