@@ -6,7 +6,7 @@ import { eq } from "drizzle-orm";
 
 export async function deletePost(postId: number, userId: string) {
   try {
-    // Vérifier que l'utilisateur est bien l'auteur du post
+    // Vérifier que l'utilisateur est bien l'auteur
     const [post] = await db
       .select()
       .from(posts)
@@ -21,7 +21,7 @@ export async function deletePost(postId: number, userId: string) {
       return { error: "Non autorisé" };
     }
 
-    // Désactiver le post au lieu de le supprimer
+    // Désactiver le post
     await db
       .update(posts)
       .set({ postActiveStatus: false })

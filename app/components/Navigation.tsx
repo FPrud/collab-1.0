@@ -35,10 +35,10 @@ export const Navigation = ({ isAuthenticated, userId }: NavigationProps) => {
     const handleHomeClick = (e: React.MouseEvent) => {
         e.preventDefault();
         if (pathname === "/") {
-            // Si déjà sur la home, réinitialiser la recherche et scroller vers la SearchBar
+            // Si déjà sur la home, réinitialiser la recherche
             router.push("/?reset=true");
         } else {
-            // Sinon, navigation normale vers home avec ancre
+            // Sinon, navigation normale vers home
             router.push("/?reset=true");
         }
     };

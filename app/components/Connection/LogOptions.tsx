@@ -87,7 +87,7 @@ export const LogOptions = ({ onClose }: LogOptionsProps) => {
                         <input name="email" type="email" placeholder="E-mail" required />
                         <label htmlFor="password" hidden>Mot de passe</label>
                         <input name="password" type="password" placeholder="Mot de passe" required />
-                        {error && <p className="text-red-600">{error}</p>}
+                        {error && <p>{error}</p>}
                         <button
                             type="submit"
                             disabled={isLoading}
@@ -108,7 +108,7 @@ export const LogOptions = ({ onClose }: LogOptionsProps) => {
                         <input name="email" type="email" placeholder="E-mail" required />
                         <label htmlFor="password" hidden>Mot de passe</label>
                         <input name="password" type="password" placeholder="Mot de passe" required />
-                        {error && <p className="text-red-600">{error}</p>}
+                        {error && <p>{error}</p>}
                         <button
                             type="submit"
                             disabled={isLoading}

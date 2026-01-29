@@ -8,11 +8,10 @@ export async function getAllPosts(offset: number = 0, limit: number = 20, search
   try {
     const conditions = [eq(posts.postActiveStatus, true)];
 
-    // Calculer le score de pertinence pour chaque post
     let relevanceScore = sql<number>`0`;
 
     if (searchTerms.length > 0) {
-      // Score pour les correspondances exactes de tags (skill + genre)
+      // Score correspondances exactes (skill + genre) (100 pts)
       const exactTagMatches = sql<number>`
         COALESCE((
           SELECT COUNT(DISTINCT ss.id) * 100
@@ -21,21 +20,21 @@ export async function getAllPosts(offset: number = 0, limit: number = 20, search
           LEFT JOIN ${musicGenres} mg ON ss.genre_id = mg.id
           WHERE ss.post_id = ${posts.id}
           AND ${sql.join(
-            searchTerms.map((term, index) => {
-              if (index < searchTerms.length - 1) {
-                return sql`(
+        searchTerms.map((term, index) => {
+          if (index < searchTerms.length - 1) {
+            return sql`(
                   (LOWER(ms.skill_name) = LOWER(${term}) AND LOWER(mg.genre_name) = LOWER(${searchTerms[index + 1]}))
                   OR (LOWER(mg.genre_name) = LOWER(${term}) AND LOWER(ms.skill_name) = LOWER(${searchTerms[index + 1]}))
                 )`;
-              }
-              return sql`FALSE`;
-            }),
-            sql` OR `
-          )}
+          }
+          return sql`FALSE`;
+        }),
+        sql` OR `
+      )}
         ), 0)
       `;
 
-      // Score pour les correspondances partielles de tags (un seul terme)
+      // Score pour 1 tag (50 pts)
       const partialTagMatches = sql<number>`
         COALESCE((
           SELECT COUNT(DISTINCT ss.id) * 50
@@ -45,25 +44,25 @@ export async function getAllPosts(offset: number = 0, limit: number = 20, search
           WHERE ss.post_id = ${posts.id}
           AND (
             ${sql.join(
-              searchTerms.map(term => 
-                sql`(LOWER(ms.skill_name) = LOWER(${term}) OR LOWER(mg.genre_name) = LOWER(${term}))`
-              ),
-              sql` OR `
-            )}
+        searchTerms.map(term =>
+          sql`(LOWER(ms.skill_name) = LOWER(${term}) OR LOWER(mg.genre_name) = LOWER(${term}))`
+        ),
+        sql` OR `
+      )}
           )
         ), 0)
       `;
 
-      // Score pour les correspondances dans le titre ou contenu (25 points par terme trouvé)
+      // Score pour titre et contenu (25 pts)
       const contentMatches = sql<number>`
         (
           ${sql.join(
-            searchTerms.map(term => 
-              sql`CASE WHEN (LOWER(${posts.title}) LIKE LOWER(${'%' + term + '%'}) 
+        searchTerms.map(term =>
+          sql`CASE WHEN (LOWER(${posts.title}) LIKE LOWER(${'%' + term + '%'}) 
                    OR LOWER(${posts.content}) LIKE LOWER(${'%' + term + '%'})) THEN 25 ELSE 0 END`
-            ),
-            sql` + `
-          )}
+        ),
+        sql` + `
+      )}
         )
       `;
 
@@ -80,12 +79,12 @@ export async function getAllPosts(offset: number = 0, limit: number = 20, search
           WHERE ss.post_id = ${posts.id}
           AND (
             ${sql.join(
-              searchTerms.map(term => 
-                sql`(LOWER(ms.skill_name) LIKE LOWER(${'%' + term + '%'}) 
+          searchTerms.map(term =>
+            sql`(LOWER(ms.skill_name) LIKE LOWER(${'%' + term + '%'}) 
                   OR LOWER(mg.genre_name) LIKE LOWER(${'%' + term + '%'}))`
-              ),
-              sql` OR `
-            )}
+          ),
+          sql` OR `
+        )}
           )
         )`,
         // Match dans le titre ou contenu
@@ -114,8 +113,8 @@ export async function getAllPosts(offset: number = 0, limit: number = 20, search
       .leftJoin(profiles, eq(posts.userId, profiles.userId))
       .where(and(...conditions))
       .orderBy(
-        searchTerms.length > 0 ? desc(sql`relevance_score`) : desc(posts.createdAt), 
-        desc(posts.createdAt), 
+        searchTerms.length > 0 ? desc(sql`relevance_score`) : desc(posts.createdAt),
+        desc(posts.createdAt),
         desc(posts.id)
       )
       .limit(limit)
