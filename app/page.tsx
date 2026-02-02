@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { DisplayMultiplePosts } from "./components/Posts/DisplayMultiplePosts";
 import { SearchBar } from "./components/SearchBar";
 import { Logo } from "./components/Logo";
 
-export default function Home() {
+function HomeContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [searchTerms, setSearchTerms] = useState<string[]>([]);
@@ -52,5 +52,13 @@ export default function Home() {
         />
       </div>
     </main>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={<div>Chargement...</div>}>
+      <HomeContent />
+    </Suspense>
   );
 }
